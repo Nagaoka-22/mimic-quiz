@@ -34,3 +34,6 @@
 
 ## 画面遷移図-figmaリンク
 https://www.figma.com/file/KUW27R7RI8tRJljhyvDZx6/Mimic-Quiz-UI?type=design&node-id=4%3A251&mode=design&t=Ry7KObLojo7VIJ1c-1
+
+## ER図
+![](2023-07-17-16-13-08.png)
