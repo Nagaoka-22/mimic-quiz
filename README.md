@@ -37,3 +37,4 @@ https://www.figma.com/file/KUW27R7RI8tRJljhyvDZx6/Mimic-Quiz-UI?type=design&node
 
 ## ER図
 ![](2023-07-18-17-29-15.png)
+https://www.figma.com/file/KUW27R7RI8tRJljhyvDZx6/Mimic-Quiz-UI?type=design&node-id=0-1&mode=design&t=1Ypd3MbjXzE1RjZU-0
