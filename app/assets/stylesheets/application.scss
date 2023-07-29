@@ -13,14 +13,52 @@
  *= require_tree .
  *= require_self
  */
- @import 'top';
- @import 'bootstrap';
- @import 'font-awesome-sprockets';
- @import 'font-awesome';
+@import "top";
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
- ul {
-    margin-bottom: 0;
- }
- a {
-    color: inherit;
- }
+ul {
+   margin-bottom: 0;
+}
+a {
+   color: inherit;
+   &:hover {
+      color: unset;
+   }
+}
+form {
+   max-width: 680px;
+}
+.devise-links {
+   a {
+      &:not(:last-child) {
+         margin-right: 2rem;
+      }
+   }
+}
+#error_explanation {
+   border: 1px solid #ff4500;
+   padding: 1rem 0;
+   margin: 1rem 0;
+   h2 {
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      font-size: 1rem;
+   }
+   ul {
+      color: #ff4500;
+   }
+}
+.flash-notifications {
+   padding: 0.5rem 1rem;
+   font-weight: bold;
+   color: white;
+   text-align: center;
+   .notice {
+      background-color: #add8e6;
+   }
+   .alert {
+      background-color: #ff4500;
+   }
+}
