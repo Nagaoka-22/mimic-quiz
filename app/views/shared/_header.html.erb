@@ -1,0 +1,21 @@
+<header class="mb-3">
+  <div class="container d-flex align-items-center justify-content-between">
+    <h1 class="logo">
+      <%= link_to 'サイト名', root_path %>
+    </h1>
+    <nav class="header-nav">
+      <ul class="d-flex align-items-center list-unstyled">
+        <% if user_signed_in? %>
+          <li class="mr-2 btn btn-outline-primary"><%= link_to edit_user_registration_path do %>
+            <i class="nav-icon fas fa-user"></i>
+            <%= current_user.name %>
+          <% end %></li>
+          <li class="mr-2 btn btn-outline-warning"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
+        <% else %>
+          <li class="mr-2 btn btn-outline-primary"><%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path %></li>
+          <li class="mr-2 btn btn-primary"><%= link_to t('devise.sessions.new.sign_in'), new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>
