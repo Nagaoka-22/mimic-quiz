@@ -1,0 +1,28 @@
+<div class="col-sm-12 col-lg-4 mb-3">
+  <div id="room-id-<%= room.id %>">
+  <%= link_to room_path(room.id) do %>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">
+          <%= room.title %>
+        </h4>
+        <ul class="list-inline">
+          <li><i class="far fa-user"></i> <%= room.user.name %></li>
+          <li><i class="far fa-calendar"></i> <%= l room.created_at, format: :short %></li>
+        </ul>
+        <div class='float-right'>
+          <% if room.password? %>
+           <span class="badge bg-warning text-dark">
+            参加募集中
+          </span>
+          <% else %>
+           <span class="badge bg-primary text-light">
+            募集終了
+          </span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  </div>
+</div>

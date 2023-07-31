@@ -1,0 +1,15 @@
+<% content_for :title, t('.title') %>
+<div class="container pt-3">
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <% if @rooms.present? %>
+            <%= render @rooms %>
+        <% else %>
+          <p><%= t('.no_result') %></p>
+        <% end %>
+      </div>
+    </div>
+    <%= paginate @rooms, theme: 'twitter-bootstrap-4' %>
+  </div>
+</div>

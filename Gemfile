@@ -64,3 +64,6 @@ gem 'jquery-rails'
 
 gem 'rails-i18n', '~> 6.0.0'
 gem 'devise-i18n'
+
+gem 'kaminari'
+gem 'bootstrap4-kaminari-views'
