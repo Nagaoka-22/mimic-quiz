@@ -55,8 +55,14 @@ form {
    font-weight: bold;
    color: white;
    text-align: center;
+   .success {
+      background-color: #198754;
+   }
    .notice {
       background-color: #add8e6;
+   }
+   .danger {
+      background-color: #dc3545;
    }
    .alert {
       background-color: #ff4500;

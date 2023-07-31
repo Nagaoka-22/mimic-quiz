@@ -1,0 +1,16 @@
+
+<section>
+<h2 class="text-center">キャッチコピー</h2>
+  <ul class="d-flex align-items-center list-unstyled">
+    <% if user_signed_in? %>
+      <li class="mr-2 btn btn-outline-primary"><%= link_to 'ルームを作成する', new_room_path %></li>
+      <li class="mr-2 btn btn-outline-primary"><%= link_to 'ルームに参加する', rooms_path %></li>
+    <% else %>
+      <li class="mr-2 btn btn-outline-primary"><%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path %></li>
+      <li class="mr-2 btn btn-primary"><%= link_to t('devise.sessions.new.sign_in'), new_user_session_path %></li>
+    <% end %>
+  </ul>
+</section>
+<section>
+<h2 class="text-center">ご利用方法</h2>
+</section>
