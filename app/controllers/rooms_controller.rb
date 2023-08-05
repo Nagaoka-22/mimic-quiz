@@ -27,7 +27,8 @@ class RoomsController < ApplicationController
     end
 
     room_join_members = RoomJoinMember.where(room_id: @room).pluck(:user_id)
-    @member_list = User.find(room_join_members)
+    @members = User.find(room_join_members)
+    @total_members = User.find(room_join_members).count
   end
 
   def destroy

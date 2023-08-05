@@ -9,12 +9,11 @@
   パスワード：<%= @room.password %>
 </div>
 
-  <p>参加人数:<%= @member_list.count %>人</p>
-  <ul>
-    <% @member_list.each do |member| %>
-      <li>
+  <p>参加人数:<span id="total_members"><%= @total_members %></span>人</p>
+  <ul id="members">
+    <% @members.each do |member| %>
+      <li id="member-<%= member.id %>">
         <%= member.name %>
-        <% if current_user.owner?(@room) %><div class="btn btn-primary">主役</div><% end %>
       </li>
     <% end %>
   </ul>

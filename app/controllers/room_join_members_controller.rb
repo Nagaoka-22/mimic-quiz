@@ -1,7 +1,7 @@
 class RoomJoinMembersController < ApplicationController
   def create
     @room = Room.find(params[:id])
-    current_user.room_join_members_rooms(@room)
+    current_user.room_join_members_rooms(@room)  
   end
 
   def destroy

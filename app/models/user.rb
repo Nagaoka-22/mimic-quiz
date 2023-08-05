@@ -17,10 +17,12 @@ class User < ApplicationRecord
 
   def room_join_members(room)
     room_join_members_rooms << room
+    ActionCable.server.broadcast 'entry_channel', {name: self.name, id: self.id}
   end
 
   def cancel_room_join_members(room)
     room_join_members_rooms.delete(room)
+    ActionCable.server.broadcast 'entry_channel', {id: self.id}
   end
 
   def room_join_members?(room)
