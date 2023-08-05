@@ -1,0 +1,14 @@
+<% content_for :title, t('.title') %>
+<div class="row">
+  <div class="col-lg-8 offset-lg-2">
+    <h1><%= t('.title') %></h1>
+    <%= form_with model: @room, url: pass_room_path(@room), method: :post, local: true do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+      <div class="form-group">
+        <%= f.label :enter_password %>
+        <%= f.text_field :enter_password, class: 'form-control' %>
+      </div>
+      <%= f.submit 'ルームに参加する', class:"btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
