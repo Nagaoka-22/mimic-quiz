@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       get 'enter'
       post 'pass'
     end
-    resource :room_join_members, only: %i[create destroy], shallow: true
+    resource :members, only: %i[create destroy], shallow: true
   end
 
   devise_for :users

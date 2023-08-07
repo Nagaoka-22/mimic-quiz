@@ -12,7 +12,7 @@ class RoomsController < ApplicationController
   def create
     @room = current_user.rooms.new(room_params)
     if @room.save
-      current_user.room_join_members(@room)
+      current_user.add_members(@room)
       redirect_to room_path(@room), flash: {success: 'ルームが作成されました'}
     else
       flash.now[:danger] = 'ルーム作成に失敗しました'
@@ -22,13 +22,13 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
-    if !current_user.room_join_members?(@room)
+    if !current_user.members?(@room)
       redirect_to enter_room_path(@room)
     end
 
-    room_join_members = RoomJoinMember.where(room_id: @room).pluck(:user_id)
-    @members = User.find(room_join_members)
-    @total_members = User.find(room_join_members).count
+    members = Member.where(room_id: @room).pluck(:user_id)
+    @members = User.find(members)
+    @total_members = User.find(members).count
   end
 
   def destroy
@@ -44,7 +44,7 @@ class RoomsController < ApplicationController
   def pass
     @room = Room.find(params[:id])
     if room_params[:enter_password] == @room.password
-      current_user.room_join_members(@room)
+      current_user.join_members(@room)
       redirect_to room_path(@room)
     else
       redirect_to rooms_path, flash: {alert: 'パスワードが違います'}

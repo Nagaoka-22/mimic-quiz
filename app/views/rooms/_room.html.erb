@@ -20,7 +20,7 @@
             募集終了
           </span>
           <% end %>
-          <% if current_user.room_join_members?(room) %>
+          <% if current_user.members?(room) %>
             参加済み
           <% else %>
             未参加
