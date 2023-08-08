@@ -11,8 +11,9 @@ class RoomsController < ApplicationController
 
   def create
     @room = current_user.rooms.new(room_params)
+    @room.hero_id = current_user.id # 仮
     if @room.save
-      current_user.add_members(@room)
+      current_user.join_members(@room)
       redirect_to room_path(@room), flash: {success: 'ルームが作成されました'}
     else
       flash.now[:danger] = 'ルーム作成に失敗しました'
