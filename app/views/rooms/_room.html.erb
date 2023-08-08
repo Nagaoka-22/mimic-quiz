@@ -12,7 +12,7 @@
         </ul>
         <div class='float-right'>
           <% if room.ready? %>
-            <span class="badge bg-warning text-dark">
+            <span class="badge bg-success text-light">
               <%= room.status_i18n %>
             </span>
           <% elsif room.playing? %>
@@ -23,7 +23,7 @@
           <% if current_user.members?(room) %>
             参加済み
           <% else %>
-            未参加
+            参加人数：<%= Member.where(room_id: room).pluck(:user_id).count %>人
           <% end %>
         </div>
       </div>

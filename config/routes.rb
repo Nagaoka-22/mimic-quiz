@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     member do
       get 'enter'
       post 'pass'
+      patch 'setting'
     end
     resource :members, only: %i[create destroy], shallow: true
   end

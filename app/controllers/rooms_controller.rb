@@ -23,7 +23,9 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
-    if !current_user.members?(@room)
+    if !current_user.members?(@room) && @room.playing?
+      redirect_to rooms_path, flash: {success: '募集が締め切られています'}
+    elsif !current_user.members?(@room) && @room.ready?
       redirect_to enter_room_path(@room)
     end
 
@@ -40,11 +42,14 @@ class RoomsController < ApplicationController
 
   def enter
     @room = Room.find(params[:id])
+    if @room.playing?
+      redirect_to rooms_path, flash: {success: '募集が締め切られています'}
+    end
   end
 
   def pass
     @room = Room.find(params[:id])
-    if room_params[:enter_password] == @room.password
+    if enter_params[:enter_password] == @room.password
       current_user.join_members(@room)
       redirect_to room_path(@room)
     else
@@ -52,9 +57,25 @@ class RoomsController < ApplicationController
     end
   end
 
+  def setting
+    @room = Room.find(params[:id])
+    @room.playing!
+    if @room.update(setting_params)
+      redirect_to room_path(@room)
+    end
+  end
+
   private
   
   def room_params
-    params.require(:room).permit(:title, :password, :enter_password)
+    params.require(:room).permit(:title, :password)
+  end
+
+  def enter_params
+    params.require(:room).permit(:enter_password)
+  end
+
+  def setting_params
+    params.require(:room).permit(:hero_id)
   end
 end
