@@ -67,3 +67,5 @@ gem 'devise-i18n'
 
 gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
+
+gem 'enum_help'

@@ -11,19 +11,19 @@
           <li><i class="far fa-calendar"></i> <%= l room.created_at, format: :short %></li>
         </ul>
         <div class='float-right'>
-          <% if room.password? %>
+          <% if room.ready? %>
+            <span class="badge bg-success text-light">
+              <%= room.status_i18n %>
+            </span>
+          <% elsif room.playing? %>
            <span class="badge bg-warning text-dark">
-            参加募集中
-          </span>
-          <% else %>
-           <span class="badge bg-primary text-light">
-            募集終了
-          </span>
+              <%= room.status_i18n %>
+            </span>
           <% end %>
-          <% if current_user.room_join_members?(room) %>
+          <% if current_user.members?(room) %>
             参加済み
           <% else %>
-            未参加
+            参加人数：<%= Member.where(room_id: room).pluck(:user_id).count %>人
           <% end %>
         </div>
       </div>
