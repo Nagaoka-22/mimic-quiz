@@ -32,6 +32,11 @@ class RoomsController < ApplicationController
     members = Member.where(room_id: @room).pluck(:user_id)
     @members = User.find(members)
     @total_members = User.find(members).count
+
+    last_question = Question.where(room_id: @room).order(created_at: :desc).first
+    if current_user.members?(@room) && last_question.present?
+      redirect_to room_question_path(@room, last_question)
+    end
   end
 
   def destroy
@@ -61,7 +66,7 @@ class RoomsController < ApplicationController
     @room = Room.find(params[:id])
     @room.playing!
     if @room.update(setting_params)
-      redirect_to room_path(@room)
+      redirect_to new_room_question_path(@room)
     end
   end
 

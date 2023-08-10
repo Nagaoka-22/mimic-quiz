@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-lg-8 offset-lg-2">
+  <h1><%= @room.title %></h1>
+    <h1><%= User.find(@room.hero_id).name %>になりきれ！</h1>
+    <h2><%= Question.where(room_id: @room).count %>問目</h2>
+    <h3>参加人数：<%= @total_members %></h3>
+    <h3>フェーズ：<%= @question.phase %></h3>
+    <% if @question.question? %>
+      <% if current_user.id == @question.user_id %>
+        あなたが出題者です
+        <%= form_with model: @question, url: [@room, @question], method: :patch, local: true do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+        	<div class="form-group">
+            <%= f.label :content %>
+            <%= f.text_field :content, class:"form-control" %>
+          </div>
+          <%= f.submit '出題する', class:"btn btn-primary" %>
+        <% end %>
+      <% else %>
+        <%= User.find(@question.user_id).name %>さんの出題をお待ちください
+      <% end %>
+    <% elsif @question.answer? %>
+      問題<%= @question.content %>
+    <% end %>
+  </div>
+</div>

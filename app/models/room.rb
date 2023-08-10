@@ -1,6 +1,7 @@
 class Room < ApplicationRecord
   belongs_to :user
   has_many :members, dependent: :destroy
+  has_many :questions, dependent: :destroy
 
   enum status:{ready: 0, playing: 1 }
 
