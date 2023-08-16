@@ -26,6 +26,7 @@ class QuestionsController < ApplicationController
         @room = Room.find(params[:room_id])
         @question = Question.find(params[:id])
         @last_question = Question.where(room_id: @room).order(created_at: :desc).first
+        @answer = Answer.new
 
         unless @question.id == @last_question.id
             redirect_to room_question_path(@room, @last_question)
@@ -34,6 +35,9 @@ class QuestionsController < ApplicationController
         members = Member.where(room_id: @room).pluck(:user_id)
         @members = User.find(members)
         @total_members = User.find(members).count
+
+        @answers = Answer.where(question_id: @question).pluck(:id)
+        @total_answers = @answers.count
     end
 
     def update

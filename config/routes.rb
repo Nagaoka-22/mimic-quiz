@@ -13,7 +13,9 @@ Rails.application.routes.draw do
       patch 'setting'
     end
     resource :members, only: %i[create destroy], shallow: true
-    resources :questions, only: %i[create destroy new show update]
+    resources :questions, only: %i[create destroy new show update] do
+      resources :answers, only: %i[create]
+    end
   end
 
   devise_for :users
