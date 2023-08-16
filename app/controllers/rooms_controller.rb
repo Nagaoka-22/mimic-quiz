@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :set_room, except: %i[index new create]
+  before_action :set_members, only: %i[show]
 
   def index
     @rooms = Room.all.includes(:user).order(created_at: :desc).page(params[:page])
@@ -22,38 +23,29 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.find(params[:id])
     if !current_user.members?(@room) && @room.playing?
       redirect_to rooms_path, flash: {success: '募集が締め切られています'}
     elsif !current_user.members?(@room) && @room.ready?
       redirect_to enter_room_path(@room)
     end
-
-    members = Member.where(room_id: @room).pluck(:user_id)
-    @members = User.find(members)
-    @total_members = User.find(members).count
-
-    last_question = Question.where(room_id: @room).order(created_at: :desc).first
-    if current_user.members?(@room) && last_question.present?
-      redirect_to room_question_path(@room, last_question)
+    
+    if current_user.members?(@room) && @room.latest_question.present?
+      redirect_to room_question_path(@room, @room.latest_question)
     end
   end
 
   def destroy
-    room = current_user.rooms.find(params[:id])
-    room.destroy!
+    @room.destroy!
     redirect_to rooms_path, flash: {success: 'ルームを解散しました'}
   end
 
   def enter
-    @room = Room.find(params[:id])
     if @room.playing?
       redirect_to rooms_path, flash: {success: '募集が締め切られています'}
     end
   end
 
   def pass
-    @room = Room.find(params[:id])
     if enter_params[:enter_password] == @room.password
       current_user.join_members(@room)
       redirect_to room_path(@room)
@@ -63,7 +55,6 @@ class RoomsController < ApplicationController
   end
 
   def setting
-    @room = Room.find(params[:id])
     @room.playing!
     if @room.update(setting_params)
       redirect_to new_room_question_path(@room)
@@ -71,6 +62,18 @@ class RoomsController < ApplicationController
   end
 
   private
+
+  def set_room
+    @room = Room.find(params[:id])
+  end
+
+  def set_members
+    @members = @room.members
+  end
+
+  def require_join_members!
+    redirect_back_or_to root_path, alert: "ルームに参加していません"  unless current_user.members?(@room)
+  end
   
   def room_params
     params.require(:room).permit(:title, :password)

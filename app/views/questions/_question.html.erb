@@ -1,0 +1,13 @@
+<% if current_user.id == @question.user_id %>
+  <p>あなたが出題者です</p>
+  <%= form_with model: @question, url: [@room, @question], method: :patch, local: true do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+  	<div class="form-group">
+      <%= f.label :content %>
+      <%= f.text_field :content, class:"form-control" %>
+    </div>
+    <%= f.submit '出題する', class:"btn btn-primary" %>
+  <% end %>
+<% else %>
+  <p><%= @question.user.name %>さんの出題をお待ちください</p>
+<% end %>

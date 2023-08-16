@@ -2,6 +2,8 @@ class User < ApplicationRecord
   has_many :rooms, dependent: :destroy
   has_many :members, dependent: :destroy
   has_many :members_rooms, through: :members, source: :room
+  has_many :questions, dependent: :destroy
+  has_many :answers, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -27,5 +29,19 @@ class User < ApplicationRecord
 
   def members?(room)
     members_rooms.include?(room)
+  end
+
+  def hero?(room)
+    room.hero_id == id
+  end
+
+  def answered?(question)
+    answers = Answer.where(question_id: question).pluck(:user_id)
+    answers.include?(id)
+    # 上記にuser_idが含まれるか
+  end
+
+  def answer(question)
+    Answer.where(question_id: question, user_id: id).first
   end
 end
