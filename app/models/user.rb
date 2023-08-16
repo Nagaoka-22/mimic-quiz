@@ -31,6 +31,10 @@ class User < ApplicationRecord
     members_rooms.include?(room)
   end
 
+  def hero?(room)
+    room.hero_id == id
+  end
+
   def answered?(question)
     answers = Answer.where(question_id: question).pluck(:user_id)
     answers.include?(id)

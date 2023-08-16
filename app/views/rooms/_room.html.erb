@@ -20,10 +20,12 @@
               <%= room.status_i18n %>
             </span>
           <% end %>
-          <% if current_user.members?(room) %>
+          <% if current_user.owner?(room) %>
+            管理者
+          <% elsif current_user.members?(room) %>
             参加済み
           <% else %>
-            参加人数：<%= Member.where(room_id: room).pluck(:user_id).count %>人
+            参加人数：<%= room.members.count %>人
           <% end %>
         </div>
       </div>

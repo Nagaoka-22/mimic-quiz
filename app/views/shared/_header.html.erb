@@ -10,8 +10,9 @@
             <i class="nav-icon fas fa-user"></i>
             <%= current_user.name %>
           <% end %></li>
-          <li class="mr-2 btn btn-outline-primary"><%= link_to 'ルームを作成する', new_room_path %></li>
-          <li class="mr-2 btn btn-outline-primary"><%= link_to 'ルームに参加する', rooms_path %></li>
+          <% unless current_page?(rooms_path) %>
+          <li class="mr-2 btn btn-outline-primary"><%= link_to 'ルーム一覧', rooms_path %></li>
+          <% end %>
           <li class="mr-2 btn btn-outline-warning"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
         <% else %>
           <li class="mr-2 btn btn-outline-primary"><%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path %></li>

@@ -1,46 +1,18 @@
 <div class="row">
   <div class="col-lg-8 offset-lg-2">
   <h1><%= @room.title %></h1>
-    <h1><%= User.find(@room.hero_id).name %>になりきれ！</h1>
-    <h2><%= Question.where(room_id: @room).count %>問目</h2>
-    <h3>参加人数：<%= @total_members %></h3>
-    <h3>フェーズ：<%= @question.phase %></h3>
+    <h1><%= @room.hero_user.name %>になりきれ！</h1>
+    <h2><%= @room.questons_count %>問目</h2>
+    <p>参加人数：<%= @members.count %></p>
+    <p>フェーズ：<%= @question.phase %></p>
     <% if @question.question? %>
-      <% if current_user.id == @question.user_id %>
-        あなたが出題者です
-        <%= form_with model: @question, url: [@room, @question], method: :patch, local: true do |f| %>
-          <%= render 'shared/error_messages', object: f.object %>
-        	<div class="form-group">
-            <%= f.label :content %>
-            <%= f.text_field :content, class:"form-control" %>
-          </div>
-          <%= f.submit '出題する', class:"btn btn-primary" %>
-        <% end %>
-      <% else %>
-        <%= User.find(@question.user_id).name %>さんの出題をお待ちください
-      <% end %>
+      <%= render 'question' %>
     <% elsif @question.answer? %>
-     <h1>問題<%= @question.content %></h1>
-     <h3>回答：<%= @total_answers %>/<%= @total_members %></h3>
-     <% if current_user.answered?(@question) %>
-      回答済み。あなたの回答は<%= current_user.answer(@question).content %>
-      <% if current_user.owner?(@room) %>
-        <%= link_to '投票を開始する', room_path, class: 'btn btn-primary', data: {confirm: "回答を締め切って投票を開始します"} %>
-      <% end %>
-     <% else %>
-        <%= form_with model: @answer, url: room_question_answers_path(@room, @question), local: true do |f| %>
-         <%= render 'shared/error_messages', object: f.object %>
-       	<div class="form-group">
-           <%= f.label :content %>
-           <%= f.text_field :content, class:"form-control" %>
-            <%= f.hidden_field :user_id, :value => current_user.id %>
-            <%= f.hidden_field :question_id, :value => @question.id %>
-         </div>
-         <%= f.submit '回答する', class:"btn btn-primary" %>
-       <% end %>
-      <% end %>
-      <% elsif @question.vote? %>
-      <% elsif @question.result? %>
-     <% end %>
+      <%= render 'answer' %>
+    <% elsif @question.vote? %>
+      <%= render 'vote' %>
+    <% elsif @question.result? %>
+      <%= render 'result' %>
+    <% end %>
   </div>
 </div>

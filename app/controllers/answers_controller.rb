@@ -1,8 +1,11 @@
 class AnswersController < ApplicationController
+    before_action :set_room
+    before_action :set_question
 
     def create
-        Answer.create(answer_params)
-        flash.now[:success] = '回答しました'
+        if Answer.create(answer_params)
+            redirect_to room_question_path(@room, @question), flash: {success: '回答しました'}
+        end
     end
 
     private
@@ -10,4 +13,15 @@ class AnswersController < ApplicationController
     def answer_params
         params.require(:answer).permit(:content, :user_id, :question_id)
     end
+
+    def set_room
+        @room = @room = Room.find(params[:room_id])
+    end
+
+    def set_question
+        @question = Question.find(params[:question_id])
+    end
+
+    # current_userがメンバーでないとき
+    # current_userがヒーローでないとき
 end

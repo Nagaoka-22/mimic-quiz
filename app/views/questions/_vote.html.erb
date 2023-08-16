@@ -1,0 +1,12 @@
+<h3>投票：<%= @answers.count %>/<%= @answers.count - 1 %></h3>
+<%= form_with model: @answer, url: '#' do |f| %>
+  <% @answers.each do |answer| %>
+    <% unless answer.user_id == current_user.id %>
+      <label>
+          <%= f.radio_button :answer_id, answer.id %>
+          <%= answer.content %>
+      </label>
+    <% end %>
+  <% end %>
+  <%= f.submit '投票する', class: 'btn btn-primary' %>
+<% end %>

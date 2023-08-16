@@ -1,8 +1,8 @@
 <% content_for :title, t('.title') %>
 <div class="row">
   <div class="col-lg-8 offset-lg-2">
-    <h1><%= User.find(@room.hero_id).name %>になりきれ！</h1>
-    <h2><%= Question.where(room_id: @room).count + 1 %>問目</h2>
+    <h1><%= @room.hero_user.name %>になりきれ！</h1>
+    <h2><%= @room.questons_count + 1 %>問目</h2>
     <%= form_with model: @question, url: [@room, @question],  local: true do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
     	<div class="form-group">
@@ -13,8 +13,13 @@
         </label>
       <% end %>
       </div>
+      <%= f.hidden_field :room_id, :value => @room.id %>
       <%= f.submit '出題者を決定', class:"btn btn-primary" %>
     <% end %>
-    <%= link_to 'ゲームを終了する', "#", class: 'btn btn-outline-warning' %>
+    <% if @room.latest_question.present? %>
+      <%= link_to 'ゲームを終了して結果を見る', "#", class: 'btn btn-outline-warning' %>
+    <% else %>
+      <%= link_to '戻る', room_path(@room), class: 'btn btn-outline-warning' %>
+    <% end %>
   </div>
 </div>
