@@ -2,7 +2,7 @@
   <div class="col-lg-8 offset-lg-2">
   <h1><%= @room.title %></h1>
     <h1><%= @room.hero_user.name %>になりきれ！</h1>
-    <h2><%= @room.questons_count %>問目</h2>
+    <h2><%= @room.count_questons %>問目</h2>
     <p>参加人数：<%= @members.count %></p>
     <p>フェーズ：<%= @question.phase %></p>
     <% if @question.question? %>
@@ -16,3 +16,29 @@
     <% end %>
   </div>
 </div>
+
+<h2>最終結果</h2>
+<%= @room.status %>
+<table>
+  <tbody>
+  <% @room.results.each do |result| %>
+  <tr>
+    <th><%= result.whose %></th>
+    <td><%= result.count_votes %>/<%= @room.count_total_votes %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% @room.result_answers.each do |question| %>
+<h3><%= question.content %></h3>
+<ul>
+<% question.result_votes.each do |answer| %>
+<li>
+    <%= answer.user.name %>
+    <%= answer.content %>
+    <%= answer.count_votes %>/<%= question.count_votes %>
+</li>
+<% end %>
+</ul>
+<% end %>

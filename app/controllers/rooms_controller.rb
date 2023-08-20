@@ -61,6 +61,18 @@ class RoomsController < ApplicationController
     end
   end
 
+  def finish
+    @room.result!
+    redirect_to result_room_path(@room), flash: {success: '最終結果です'}
+    # ↑を消してアクションケーブルでページリロード
+  end
+
+  def result
+    unless @room.result?
+      redirect_to room_question_path(@room, @room.latest_question), flash: {alert: 'まだゲーム中です'}
+    end
+  end
+
   private
 
   def set_room

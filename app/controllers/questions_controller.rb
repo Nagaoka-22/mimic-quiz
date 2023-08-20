@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
     before_action :set_room
     before_action :set_members, only: %i[show update]
-    before_action :set_question, only: %i[show update]
+    before_action :set_question, except: %i[new create]
     # 管理者のみnew, create
     # 問題作成車のみupdate
 
@@ -21,12 +21,17 @@ class QuestionsController < ApplicationController
     end
 
     def show
-        unless @question.id == @room.latest_question.id
-            redirect_to room_question_path(@room, @room.latest_question)
+        if @room.result?
+            redirect_to result_room_path(@room)
+        elsif @room.playing?
+            latest_question
         end
 
         @answer = Answer.new
         @answers = @question.answers
+
+        @vote = Vote.new
+        @votes = @question.votes
     end
 
     def update
@@ -37,7 +42,17 @@ class QuestionsController < ApplicationController
     end
 
     # 投票フェーズにするメソッド
+    def vote
+        @question.vote!
+        redirect_to room_question_path(@room, @question), flash: {success: '投票タイムです'}
+        # ↑を消してアクションケーブルでページリロード
+    end
     # 結果フェーズにするメソッド
+    def result
+        @question.result!
+        redirect_to room_question_path(@room, @question), flash: {success: '投票結果です'}
+        # ↑を消してアクションケーブルでページリロード
+    end
 
     private
 
@@ -55,5 +70,11 @@ class QuestionsController < ApplicationController
 
     def question_params
         params.require(:question).permit(:user_id, :room_id, :content)
+    end
+
+    def latest_question
+        unless @question.id == @room.latest_question.id
+            redirect_to room_question_path(@room, @room.latest_question)
+        end
     end
 end

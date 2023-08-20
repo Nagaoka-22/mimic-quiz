@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :members_rooms, through: :members, source: :room
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
+  has_many :votes, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -43,5 +44,15 @@ class User < ApplicationRecord
 
   def answer(question)
     Answer.where(question_id: question, user_id: id).first
+  end
+
+  def voted?(question)
+    votes = Vote.where(question_id: question).pluck(:user_id)
+    votes.include?(id)
+  end
+
+  def voted_answer(question)
+    answer = Vote.where(question_id: question, user_id: id).first
+    Answer.where(id: answer.id).first
   end
 end
