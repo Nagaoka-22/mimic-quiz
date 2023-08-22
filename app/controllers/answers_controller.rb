@@ -22,6 +22,4 @@ class AnswersController < ApplicationController
         @question = Question.find(params[:question_id])
     end
 
-    # current_userがメンバーでないとき
-    # current_userがヒーローでないとき
 end

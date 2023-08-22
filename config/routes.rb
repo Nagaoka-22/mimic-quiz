@@ -15,10 +15,11 @@ Rails.application.routes.draw do
       get 'result'
     end
     resource :members, only: %i[create destroy], shallow: true
-    resources :questions, only: %i[create destroy new show update] do
+    resources :questions, only: %i[create destroy new show] do
       resources :answers, only: %i[create]
       resources :votes, only: %i[create]
       member do
+        patch 'ask'
         patch 'vote'
         patch 'result'
         patch 'end'

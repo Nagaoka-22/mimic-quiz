@@ -48,6 +48,6 @@ class Room < ApplicationRecord
     end
 
     def members_id
-      Member.where(room_id: id).order(created_at: :desc).pluck(:user_id)
+      Member.where(room_id: id).order(created_at: :asc).pluck(:user_id)
     end
 end

@@ -3,7 +3,8 @@ class RoomsController < ApplicationController
   before_action :set_members, only: %i[show]
 
   def index
-    @rooms = Room.all.includes(:user).order(created_at: :desc).page(params[:page])
+    join_room_ids = Member.where(user_id: current_user).pluck(:room_id)
+    @rooms = Room.where(id: join_room_ids).includes(:user).order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -12,7 +13,6 @@ class RoomsController < ApplicationController
 
   def create
     @room = current_user.rooms.new(room_params)
-    @room.hero_id = current_user.id # 仮
     if @room.save
       current_user.join_members(@room)
       redirect_to room_path(@room), flash: {success: 'ルームが作成されました'}
@@ -23,14 +23,10 @@ class RoomsController < ApplicationController
   end
 
   def show
-    if !current_user.members?(@room) && @room.playing?
-      redirect_to rooms_path, flash: {success: '募集が締め切られています'}
-    elsif !current_user.members?(@room) && @room.ready?
+    unless current_user.members?(@room)
       redirect_to enter_room_path(@room)
-    end
-    
-    if current_user.members?(@room) && @room.latest_question.present?
-      redirect_to room_question_path(@room, @room.latest_question)
+    else
+      redirect_to room_question_path(@room, @room.latest_question) if @room.latest_question.present?
     end
   end
 
@@ -40,9 +36,7 @@ class RoomsController < ApplicationController
   end
 
   def enter
-    if @room.playing?
-      redirect_to rooms_path, flash: {success: '募集が締め切られています'}
-    end
+    redirect_to rooms_path, flash: {success: '募集が締め切られています'} unless @room.ready?
   end
 
   def pass
@@ -55,7 +49,6 @@ class RoomsController < ApplicationController
   end
 
   def setting
-    @room.playing!
     if @room.update(setting_params)
       redirect_to new_room_question_path(@room)
     end
@@ -68,9 +61,7 @@ class RoomsController < ApplicationController
   end
 
   def result
-    unless @room.result?
-      redirect_to room_question_path(@room, @room.latest_question), flash: {alert: 'まだゲーム中です'}
-    end
+    redirect_to room_question_path(@room, @room.latest_question), flash: {alert: 'まだゲーム中です'} unless @room.result?
   end
 
   private
@@ -81,10 +72,6 @@ class RoomsController < ApplicationController
 
   def set_members
     @members = @room.members
-  end
-
-  def require_join_members!
-    redirect_back_or_to root_path, alert: "ルームに参加していません"  unless current_user.members?(@room)
   end
   
   def room_params

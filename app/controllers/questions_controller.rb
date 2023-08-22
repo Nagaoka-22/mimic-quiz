@@ -1,9 +1,12 @@
 class QuestionsController < ApplicationController
+
     before_action :set_room
     before_action :set_members, only: %i[show update]
     before_action :set_question, except: %i[new create]
     # 管理者のみnew, create
+    before_action :require_owner!, only: %i[new create]
     # 問題作成車のみupdate
+    before_action :require_creater!, only: %i[ask]
 
     def new
         @question = Question.new
@@ -12,6 +15,7 @@ class QuestionsController < ApplicationController
 
     def create
         @question = Question.new(question_params)
+        @room.playing! unless @room.playing?
         if @question.save
             redirect_to room_question_path(@room, @question), flash: {success: '出題者が決定しました'}
         else
@@ -34,7 +38,7 @@ class QuestionsController < ApplicationController
         @votes = @question.votes
     end
 
-    def update
+    def ask
         @question.answer!
         if @question.update(content: question_params[:content])
             redirect_to room_question_path(@room, @question), flash: {success: '出題されました'}
@@ -75,6 +79,18 @@ class QuestionsController < ApplicationController
     def latest_question
         unless @question.id == @room.latest_question.id
             redirect_to room_question_path(@room, @room.latest_question)
+        end
+    end
+
+    def require_owner!
+        unless current_user.owner?(@room)
+            redirect_to room_path(@room), flash: {success: '管理者権限が必要です'}
+        end
+    end
+
+    def require_creater!
+        unless current_user.id == @question.user.id
+            redirect_to room_path(@room), flash: {success: '管理者権限が必要です'}
         end
     end
 end

@@ -7,26 +7,27 @@
           <%= room.title %>
         </h4>
         <ul class="list-inline">
-          <li><i class="far fa-user"></i> <%= room.user.name %></li>
+          <li>
+            <% if current_user.owner?(room) %>
+            <i class="fas fa-user"></i>
+            <% else %>
+            <i class="far fa-user"></i>
+            <% end %>
+             <%= room.user.name %>
+          </li>
           <li><i class="far fa-calendar"></i> <%= l room.created_at, format: :short %></li>
         </ul>
         <div class='float-right'>
           <% if room.ready? %>
             <span class="badge bg-success text-light">
-              <%= room.status_i18n %>
-            </span>
           <% elsif room.playing? %>
+           <span class="badge bg-info text-light">
+          <% elsif room.result? %>
            <span class="badge bg-warning text-dark">
+          <% end %>
               <%= room.status_i18n %>
             </span>
-          <% end %>
-          <% if current_user.owner?(room) %>
-            管理者
-          <% elsif current_user.members?(room) %>
-            参加済み
-          <% else %>
-            参加人数：<%= room.members.count %>人
-          <% end %>
+          参加人数：<%= room.members.count %>人
         </div>
       </div>
     </div>

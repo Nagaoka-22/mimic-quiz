@@ -10,8 +10,9 @@ ja:
   enums:
     room:
       status:
-        ready: 参加募集中
-        playing: 募集締め切り
+        ready: 募集中
+        playing: プレイ中
+        result: 終了
   date:
     abbr_day_names:
     - 日

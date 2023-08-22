@@ -1,6 +1,6 @@
 <% if current_user.id == @question.user_id %>
   <p>あなたが出題者です</p>
-  <%= form_with model: @question, url: [@room, @question], method: :patch, local: true do |f| %>
+  <%= form_with model: @question, url: ask_room_question_path(@room, @question), method: :patch, local: true do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
   	<div class="form-group">
       <%= f.label :content %>
