@@ -1,0 +1,7 @@
+<ul class="d-flex align-items-baseline list-unstyled">
+  <% if current_user.owner?(@room) %>
+    <li class="mr-2"><%= link_to 'ルームを解散する', room_path, method: :delete, class: 'btn btn-outline-warning', data: {confirm: "解散しますか？"} %></li>
+  <% else %>
+    <li class="mr-2"><%= link_to 'ルームを退出する', room_members_path(@room), method: :delete, data: {confirm: "退出しますか？"}, class: 'btn btn-outline-warning' %></li>
+  <% end %>
+</ul>

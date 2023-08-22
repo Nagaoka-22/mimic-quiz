@@ -2,23 +2,25 @@
 <div class="row">
   <div class="col-lg-8 offset-lg-2">
     <h1><%= @room.hero_user.name %>になりきれ！</h1>
-    <h2><%= @room.questons_count + 1 %>問目</h2>
+    <h2><%= @room.count_questons + 1 %>問目</h2>
     <%= form_with model: @question, url: [@room, @question],  local: true do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
     	<div class="form-group">
-      <% @members.each do |member| %>
+      <% @members.each_with_index do |member, index| %>
         <label>
-          <%= f.radio_button :user_id, member.id %>
-          <%= member.name %>
+        <% if index == 0 %>
+            <%= f.radio_button :user_id, member.id, checked: true %>
+        <% else %>
+            <%= f.radio_button :user_id, member.id %>
+        <% end %>
+            <%= member.name %>
         </label>
       <% end %>
       </div>
       <%= f.hidden_field :room_id, :value => @room.id %>
       <%= f.submit '出題者を決定', class:"btn btn-primary" %>
     <% end %>
-    <% if @room.latest_question.present? %>
-      <%= link_to 'ゲームを終了して結果を見る', "#", class: 'btn btn-outline-warning' %>
-    <% else %>
+    <% unless @room.latest_question.present? %>
       <%= link_to '戻る', room_path(@room), class: 'btn btn-outline-warning' %>
     <% end %>
   </div>

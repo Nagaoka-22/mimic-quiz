@@ -6,26 +6,36 @@
 </ul>
 
 <div class="mb-4">
-  パスワード：<%= @room.password %>
+<ul>
+  <li>ルームURL：<%= request.url %></li>
+  <%# コピーボタン/jsで実装 %>
+  <li>パスワード：<%= @room.password %></li>
+</ul>
 </div>
   <p>参加人数:<span id="total_members"><%= @members.count %></span>人</p>
-  <% if @room.hero_id.present? %>
-    主役：<%= @room.hero_user.name %>
-  <% end %>
 
   <% if current_user.owner?(@room) %>
+  <h3>ルームの主役を選択</h3>
+  <p>3人以上でゲームが開始できます</p>
     <%= form_with model: @room, url: setting_room_path(@room) do |f| %>
     	<div id="room-heroes">
-      <% @members.each do |member| %>
+      <% @members.each_with_index do |member, index| %>
         <label>
+        <% if index == 0 %>
+          <%= f.radio_button :hero_id, member.id, checked: true %>
+        <% else %>
           <%= f.radio_button :hero_id, member.id %>
+        <% end %>
           <%= member.name %>
         </label>
       <% end %>
       </div>
-      <%= f.submit 'ゲームを開始する', class: 'btn btn-primary' %>
+      <% if @members.count >= 1 %>
+        <%= f.submit 'ゲームを開始する', class: 'btn btn-primary' %>
+      <% end %>
     <% end %>
   <% else %>
+  <h3>参加メンバー</h3>
     <ul id="members">
       <% @members.each do |member| %>
         <li id="member-<%= member.id %>">
@@ -35,10 +45,4 @@
     </ul>
   <% end %>
 
-<ul class="d-flex align-items-baseline list-unstyled">
-  <% if current_user.owner?(@room) %>
-    <li class="mr-2"><%= link_to 'ルームを解散する', room_path, method: :delete, class: 'btn btn-outline-warning', data: {confirm: "解散しますか？"} %></li>
-  <% else %>
-    <li class="mr-2"><%= link_to 'ルームを退出する', room_members_path(@room), method: :delete, data: {confirm: "退出しますか？"}, class: 'btn btn-outline-warning' %></li>
-  <% end %>
-</ul>
+<%= render 'links' %>

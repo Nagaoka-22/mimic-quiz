@@ -1,12 +1,28 @@
-<h3>投票：<%= @answers.count %>/<%= @answers.count - 1 %></h3>
-<%= form_with model: @answer, url: '#' do |f| %>
-  <% @answers.each do |answer| %>
-    <% unless answer.user_id == current_user.id %>
-      <label>
-          <%= f.radio_button :answer_id, answer.id %>
-          <%= answer.content %>
-      </label>
+<h3>投票：<%= @question.count_votes %>/<%= @answers.count - 1 %></h3>
+<p>あなたの回答：<%= current_user.answer(@question).content %></p>
+<% if current_user.hero?(@room) %>
+      <% @answers.each do |answer| %>
+        <% unless answer.user_id == current_user.id %>
+            <%= answer.content %>
+        <% end %>
+      <% end %>
+<% elsif current_user.voted?(@question) %>
+  <p>投票済み：<%= current_user.voted_answer(@question).content %></p>
+<% else %>
+  <%= form_with model: @vote, url: room_question_votes_path(@room, @question), local: true do |f| %>
+    <% @answers.each do |answer| %>
+      <% unless answer.user_id == current_user.id %>
+        <label>
+            <%= f.radio_button :answer_id, answer.id %>
+            <%= answer.content %>
+        </label>
+      <% end %>
     <% end %>
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+    <%= f.hidden_field :question_id, :value => @question.id %>
+    <%= f.submit '投票する', class: 'btn btn-primary' %>
   <% end %>
-  <%= f.submit '投票する', class: 'btn btn-primary' %>
 <% end %>
+<% if current_user.owner?(@room) %>
+   <%= link_to '結果を表示する', result_room_question_path(@room, @question), method: :patch, class: 'btn btn-primary', data: {confirm: "投票を締め切って結果を表示します"} %>
+ <% end %>
