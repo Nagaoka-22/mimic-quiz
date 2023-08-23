@@ -1,7 +1,14 @@
 <% content_for :title, t('.title') %>
 <div class="container pt-3">
 <h2>参加済みルーム</h2>
-<p>作成済みのルームに参加する場合は、ルーム管理者からURLを教えてもらってください</p>
+<p>作成済みのルームに探す場合は、以下にルームIDを入力してください。</p>
+<%= form_with url: search_path, method: :post, local: true do |f| %>
+  <div class="form-group">
+    <%= f.text_field :room_id, class: 'form-control' %>
+  </div>
+  <%= f.submit 'ルームを検索する', class:"btn btn-primary" %>
+<% end %>
+
 <div class="btn btn-outline-primary"><%= link_to 'ルームを作成する', new_room_path %></div>
   <div class="row">
     <div class="col-12">

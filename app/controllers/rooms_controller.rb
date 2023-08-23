@@ -1,5 +1,5 @@
 class RoomsController < ApplicationController
-  before_action :set_room, except: %i[index new create]
+  before_action :set_room, except: %i[index new create search]
   before_action :set_members, only: %i[show]
 
   def index
@@ -36,6 +36,7 @@ class RoomsController < ApplicationController
   end
 
   def enter
+    redirect_to room_path(@room) if current_user.members?(@room)
     redirect_to rooms_path, flash: {success: '募集が締め切られています'} unless @room.ready?
   end
 
@@ -44,7 +45,7 @@ class RoomsController < ApplicationController
       current_user.join_members(@room)
       redirect_to room_path(@room)
     else
-      redirect_to rooms_path, flash: {alert: 'パスワードが違います'}
+      redirect_to enter_room_path(@room), flash: {alert: 'パスワードが違います'}
     end
   end
 
@@ -62,6 +63,10 @@ class RoomsController < ApplicationController
 
   def result
     redirect_to room_question_path(@room, @room.latest_question), flash: {alert: 'まだゲーム中です'} unless @room.result?
+  end
+
+  def search
+    redirect_to enter_room_path(search_params[:room_id])
   end
 
   private
@@ -84,5 +89,9 @@ class RoomsController < ApplicationController
 
   def setting_params
     params.require(:room).permit(:hero_id)
+  end
+
+  def search_params
+    params.permit(:room_id)
   end
 end
