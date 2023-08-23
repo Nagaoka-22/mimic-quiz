@@ -29,9 +29,7 @@
         </label>
       <% end %>
       </div>
-      <% if @members.count >= 1 %>
-        <%= f.submit 'ゲームを開始する', class: 'btn btn-primary' %>
-      <% end %>
+      <%= f.submit 'ゲームを開始する', id: 'js-submit', class: 'btn btn-primary', disabled: @members.count < 3 %>
     <% end %>
   <% else %>
   <h3>参加メンバー</h3>

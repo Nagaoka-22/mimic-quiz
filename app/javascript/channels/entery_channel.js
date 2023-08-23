@@ -25,6 +25,12 @@ consumer.subscriptions.create("EnteryChannel", {
       }
       const total_members = heroes.getElementsByTagName("label").length;
       document.getElementById("total_members").innerHTML = total_members;
+      const submit_btn = document.getElementById("js-submit")
+      if (total_members >= 3 && submit_btn.disabled == true) {
+        submit_btn.removeAttribute("disabled");
+      } else if (total_members < 3 && submit_btn.disabled == false) {
+        submit_btn.setAttribute("disabled", true);
+      }
     }
 
     const members = document.getElementById("members");
