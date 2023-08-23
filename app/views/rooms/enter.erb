@@ -6,7 +6,7 @@
       <%= render 'shared/error_messages', object: f.object %>
       <div class="form-group">
         <%= f.label :enter_password %>
-        <%= f.text_field :enter_password, class: 'form-control' %>
+        <%= f.text_field :enter_password, class: 'form-control', required: true %>
       </div>
       <%= f.submit 'ルームに参加する', class:"btn btn-primary" %>
     <% end %>
