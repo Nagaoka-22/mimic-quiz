@@ -49,7 +49,7 @@ class User < ApplicationRecord
   end
 
   def voted_answer(question)
-    answer = Vote.find_by(question_id: question, user_id: id)
-    Answer.find_by(id: answer.id)
+    vote = Vote.find_by(question_id: question, user_id: self.id)
+    Answer.find_by(id: vote.answer_id)
   end
 end

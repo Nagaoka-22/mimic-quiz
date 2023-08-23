@@ -57,8 +57,9 @@ class RoomsController < ApplicationController
 
   def finish
     @room.result!
-    redirect_to result_room_path(@room), flash: {success: '最終結果です'}
+    # redirect_to result_room_path(@room), flash: {success: '最終結果です'}
     # ↑を消してアクションケーブルでページリロード
+    ActionCable.server.broadcast 'phase_channel', {}
   end
 
   def result

@@ -1,5 +1,7 @@
 <h3>投票：<%= @question.count_votes %>/<%= @answers.count - 1 %></h3>
-<p>あなたの回答：<%= current_user.answer(@question).content %></p>
+<% if current_user.answered?(@question) %>
+  <p>あなたの回答：<%= current_user.answer(@question).content %></p>
+<% end %>
 <% if current_user.hero?(@room) %>
       <% @answers.each do |answer| %>
         <% unless answer.user_id == current_user.id %>
@@ -24,5 +26,7 @@
   <% end %>
 <% end %>
 <% if current_user.owner?(@room) %>
+  <% if current_user.hero?(@room) || current_user.voted?(@question) %>
    <%= link_to '結果を表示する', result_room_question_path(@room, @question), method: :patch, class: 'btn btn-primary', data: {confirm: "投票を締め切って結果を表示します"} %>
- <% end %>
+  <% end %>
+<% end %>

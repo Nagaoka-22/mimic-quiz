@@ -3,12 +3,14 @@ class QuestionsController < ApplicationController
     before_action :set_room
     before_action :set_members, only: %i[show update]
     before_action :set_question, except: %i[new create]
-    # 管理者のみnew, create
     before_action :require_owner!, only: %i[new create]
-    # 問題作成車のみupdate
     before_action :require_creater!, only: %i[ask]
 
     def new
+        if @room.latest_question.present?
+            redirect_to room_question_path(@room, @room.latest_question) unless @room.latest_question.result?
+        end
+
         @question = Question.new
         @members = @room.members_without_hero
     end
@@ -17,10 +19,9 @@ class QuestionsController < ApplicationController
         @question = Question.new(question_params)
         @room.playing! unless @room.playing?
         if @question.save
-            redirect_to room_question_path(@room, @question), flash: {success: '出題者が決定しました'}
-        else
-          flash.now[:danger] = '出題者が決定されていません'
-          render :new
+            # redirect_to room_question_path(@room, @question), flash: {success: '出題者が決定しました'}
+            # ↑を消してアクションケーブルでページリロード
+            ActionCable.server.broadcast 'phase_channel', {}
         end
     end
 
@@ -41,21 +42,25 @@ class QuestionsController < ApplicationController
     def ask
         @question.answer!
         if @question.update(content: question_params[:content])
-            redirect_to room_question_path(@room, @question), flash: {success: '出題されました'}
+            # redirect_to room_question_path(@room, @question), flash: {success: '出題されました'}
+            # ↑を消してアクションケーブルでページリロード
+            ActionCable.server.broadcast 'phase_channel', {}
         end
     end
 
     
     def vote
         @question.vote!
-        redirect_to room_question_path(@room, @question), flash: {success: '投票タイムです'}
+        # redirect_to room_question_path(@room, @question), flash: {success: '投票タイムです'}
         # ↑を消してアクションケーブルでページリロード
+        ActionCable.server.broadcast 'phase_channel', {}
     end
     
     def result
         @question.result!
-        redirect_to room_question_path(@room, @question), flash: {success: '投票結果です'}
+        # redirect_to room_question_path(@room, @question), flash: {success: '投票結果です'}
         # ↑を消してアクションケーブルでページリロード
+        ActionCable.server.broadcast 'phase_channel', {}
     end
 
     private

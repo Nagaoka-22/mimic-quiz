@@ -20,8 +20,6 @@
       <%= f.hidden_field :room_id, :value => @room.id %>
       <%= f.submit '出題者を決定', class:"btn btn-primary" %>
     <% end %>
-    <% unless @room.latest_question.present? %>
-      <%= link_to '戻る', room_path(@room), class: 'btn btn-outline-warning' %>
-    <% end %>
-  </div>
+    <%= link_to '戻る', room_path(@room), class: 'btn btn-outline-warning' %>
+</div>
 </div>
