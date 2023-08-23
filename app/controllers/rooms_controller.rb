@@ -3,8 +3,8 @@ class RoomsController < ApplicationController
   before_action :set_members, only: %i[show]
 
   def index
-    join_room_ids = Member.where(user_id: current_user).pluck(:room_id)
-    @rooms = Room.where(id: join_room_ids).includes(:user).order(created_at: :desc).page(params[:page])
+    @join_room_ids = Member.where(user_id: current_user).pluck(:room_id)
+    @rooms = Room.where(id: @join_room_ids).includes(:user).order(created_at: :desc).page(params[:page])
   end
 
   def new

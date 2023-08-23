@@ -37,22 +37,19 @@ class User < ApplicationRecord
   end
 
   def answered?(question)
-    answers = Answer.where(question_id: question).pluck(:user_id)
-    answers.include?(id)
-    # 上記にuser_idが含まれるか
+    Answer.where(question_id: question, user_id: self.id).exists?
   end
 
   def answer(question)
-    Answer.where(question_id: question, user_id: id).first
+    Answer.find_by(question_id: question, user_id: id)
   end
 
   def voted?(question)
-    votes = Vote.where(question_id: question).pluck(:user_id)
-    votes.include?(id)
+    votes = Vote.where(question_id: question, user_id: self.id).exists?
   end
 
   def voted_answer(question)
-    answer = Vote.where(question_id: question, user_id: id).first
-    Answer.where(id: answer.id).first
+    answer = Vote.find_by(question_id: question, user_id: id)
+    Answer.find_by(id: answer.id)
   end
 end

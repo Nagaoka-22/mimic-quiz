@@ -45,13 +45,13 @@ class QuestionsController < ApplicationController
         end
     end
 
-    # 投票フェーズにするメソッド
+    
     def vote
         @question.vote!
         redirect_to room_question_path(@room, @question), flash: {success: '投票タイムです'}
         # ↑を消してアクションケーブルでページリロード
     end
-    # 結果フェーズにするメソッド
+    
     def result
         @question.result!
         redirect_to room_question_path(@room, @question), flash: {success: '投票結果です'}
@@ -61,7 +61,7 @@ class QuestionsController < ApplicationController
     private
 
     def set_room
-        @room = @room = Room.find(params[:room_id])
+        @room = Room.find(params[:room_id])
     end
 
     def set_members

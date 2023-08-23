@@ -2,7 +2,7 @@
 <% @question.result_votes.each do |answer| %>
 <p>
     <%= answer.content %>
-    <%= answer.user.name %>
+    <%= answer.whose %>
     <%= answer.count_votes %>/<%= @question.count_votes %>
 </p>
 <% end %>

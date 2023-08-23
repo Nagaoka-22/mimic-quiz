@@ -21,10 +21,10 @@ class Room < ApplicationRecord
   end
 
   def latest_question
-    all_questions.order(created_at: :desc).first
+    all_questions.order(created_at: :desc).take
   end
 
-  def count_questons
+  def count_questions
     all_questions.count
   end
 
@@ -38,7 +38,7 @@ class Room < ApplicationRecord
   end
 
   def count_total_votes
-    all_questions.joins(:votes).count
+    all_questions.includes(:votes).count
   end
   
   private
