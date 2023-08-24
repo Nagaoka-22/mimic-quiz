@@ -1,10 +1,11 @@
 <div class="row">
   <div class="col-lg-8 offset-lg-2">
-  <h1><%= @room.title %></h1>
-    <h1><%= @room.hero_user.name %>になりきれ！</h1>
-    <h2><%= @room.count_questions %>問目</h2>
-    <p>参加人数：<%= @members.count %></p>
-    <p>フェーズ：<%= @question.phase %></p>
+    <div class="room-info">
+      <p class="room-title"><%= @room.title %></p>
+      <p>参加人数：<%= @members.count %></p>
+      <p><%= @room.hero_user.name %>になりきれ！</p>
+      <p><%= @room.count_questions %>問目</p>
+    </div>
     <% if @question.question? %>
       <%= render 'question' %>
     <% elsif @question.answer? %>

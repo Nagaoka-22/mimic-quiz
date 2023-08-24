@@ -1,8 +1,8 @@
 <% content_for :title, t('.title') %>
 <div class="row">
   <div class="col-lg-8 offset-lg-2">
-    <h1><%= @room.hero_user.name %>になりきれ！</h1>
-    <h2><%= @room.count_questions + 1 %>問目</h2>
+    <h2><%= @room.hero_user.name %>になりきれ！</h2>
+    <p><%= @room.count_questions + 1 %>問目</p>
     <%= form_with model: @question, url: [@room, @question],  local: true do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
     	<div class="form-group">

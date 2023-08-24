@@ -1,12 +1,22 @@
-<h2><%= @question.content %></h2>
+<h2>「<%= @question.content %>」の投票結果</h2>
+<table>
+<thead>
+<tr>
+  <th>回答</th>
+  <th>回答者</th>
+  <th>得票数</th>
+</tr>
+</thead>
+<tbody>
 <% @question.result_votes.each do |answer| %>
-<p>
-    <%= answer.content %>
-    <%= answer.whose %>
-    <%= answer.count_votes %>/<%= @question.count_votes %>
-</p>
+<tr>
+    <td><%= answer.content %></td>
+    <td><%= answer.whose %></td>
+    <td><%= answer.count_votes %>/<%= @question.count_votes %></td>
+</tr>
+</tbody>
 <% end %>
-
+<table>
 <% if current_user.owner?(@room) %>
     <%= link_to '次の問題へ', new_room_question_path(@room), class: 'btn btn-primary' %>
     <% if @room.latest_question.present? %>
