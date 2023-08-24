@@ -1,6 +1,6 @@
 import consumer from "./consumer"
 
-consumer.subscriptions.create("PhaseChannel", {
+consumer.subscriptions.create("CountChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
   },
@@ -13,7 +13,13 @@ consumer.subscriptions.create("PhaseChannel", {
     // Called when there's incoming data on the websocket for this channel
     const room_id = document.getElementById("hidden-id").value;
     if (data.room == room_id) {
-      location.reload();
+      if (data.action == "answer") {
+        document.getElementById("total_answers").innerHTML = data.count;
+      }
+
+      if (data.action == "vote") {
+        document.getElementById("total_votes").innerHTML = data.count;
+      }
     }
   }
 });

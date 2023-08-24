@@ -1,5 +1,5 @@
 <h1>問題：<%= @question.content %></h1>
-<h3>回答：<%= @answers.count %>/<%= @members.count %></h3>
+<h3>回答：<span id="total_answers"><%= @answers.count %></span>/<%= @members.count %>人</h3>
 <% if current_user.answered?(@question) %>
  <p>回答済み。あなたの回答は<%= current_user.answer(@question).content %></p>
  <% if current_user.owner?(@room) %>

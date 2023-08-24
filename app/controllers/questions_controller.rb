@@ -21,7 +21,7 @@ class QuestionsController < ApplicationController
         if @question.save
             # redirect_to room_question_path(@room, @question), flash: {success: '出題者が決定しました'}
             # ↑を消してアクションケーブルでページリロード
-            ActionCable.server.broadcast 'phase_channel', {}
+            ActionCable.server.broadcast 'phase_channel', {room: @room.id}
         end
     end
 
@@ -44,7 +44,7 @@ class QuestionsController < ApplicationController
         if @question.update(content: question_params[:content])
             # redirect_to room_question_path(@room, @question), flash: {success: '出題されました'}
             # ↑を消してアクションケーブルでページリロード
-            ActionCable.server.broadcast 'phase_channel', {}
+            ActionCable.server.broadcast 'phase_channel', {room: @room.id}
         end
     end
 
@@ -53,14 +53,14 @@ class QuestionsController < ApplicationController
         @question.vote!
         # redirect_to room_question_path(@room, @question), flash: {success: '投票タイムです'}
         # ↑を消してアクションケーブルでページリロード
-        ActionCable.server.broadcast 'phase_channel', {}
+        ActionCable.server.broadcast 'phase_channel', {room: @room.id}
     end
     
     def result
         @question.result!
         # redirect_to room_question_path(@room, @question), flash: {success: '投票結果です'}
         # ↑を消してアクションケーブルでページリロード
-        ActionCable.server.broadcast 'phase_channel', {}
+        ActionCable.server.broadcast 'phase_channel', {room: @room.id}
     end
 
     private

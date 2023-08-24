@@ -32,11 +32,6 @@ class Room < ApplicationRecord
     all_questions
   end
 
-  def results
-    answers = Answer.joins(:question).where( question: { room_id: id }).left_outer_joins(:votes)
-    answers.sort_by{|answer| answer.count_votes}.reverse
-  end
-
   def count_total_votes
     all_questions.includes(:votes).count
   end

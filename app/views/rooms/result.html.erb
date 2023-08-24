@@ -1,11 +1,10 @@
 <h2>最終結果</h2>
-<%= @room.status %>
 <table>
   <tbody>
-  <% @room.results.each do |result| %>
+  <% @members.each do |member| %>
   <tr>
-    <th><%= result.whose %></th>
-    <td><%= result.count_votes %>/<%= @room.count_total_votes %></td>
+    <th><%= member.name %></th>
+    <td><%= member.result(@room) %>/<%= @room.count_total_votes %></td>
   </tr>
   <% end %>
   </tbody>

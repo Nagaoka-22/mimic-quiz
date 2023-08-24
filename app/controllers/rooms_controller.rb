@@ -59,11 +59,13 @@ class RoomsController < ApplicationController
     @room.result!
     # redirect_to result_room_path(@room), flash: {success: '最終結果です'}
     # ↑を消してアクションケーブルでページリロード
-    ActionCable.server.broadcast 'phase_channel', {}
+    ActionCable.server.broadcast 'phase_channel', {room: @room.id}
   end
 
   def result
     redirect_to room_question_path(@room, @room.latest_question), flash: {alert: 'まだゲーム中です'} unless @room.result?
+
+    @members = @room.members.sort_by{|member| member.result(@room)}.reverse
   end
 
   def search

@@ -20,12 +20,12 @@ class User < ApplicationRecord
 
   def join_members(room)
     members_rooms << room
-    ActionCable.server.broadcast 'entry_channel', {name: self.name, id: self.id}
+    ActionCable.server.broadcast 'entry_channel', {action: "join", name: self.name, id: self.id, room: room.id, count: room.members.count}
   end
 
   def cancel_members(room)
     members_rooms.delete(room)
-    ActionCable.server.broadcast 'entry_channel', {id: self.id}
+    ActionCable.server.broadcast 'entry_channel', {action: "cancel", id: self.id, room: room.id, count: room.members.count}
   end
 
   def members?(room)
@@ -51,5 +51,10 @@ class User < ApplicationRecord
   def voted_answer(question)
     vote = Vote.find_by(question_id: question, user_id: self.id)
     Answer.find_by(id: vote.answer_id)
+  end
+
+  def result(room)
+    answers = Answer.joins(:question).where( question: { room_id: room.id }, user_id: self.id).pluck(:id)
+    Vote.where(answer_id: answers).count
   end
 end

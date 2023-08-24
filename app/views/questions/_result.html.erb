@@ -8,7 +8,7 @@
 <% end %>
 
 <% if current_user.owner?(@room) %>
-    <%= link_to '次の問題へ', new_room_question_path(@room), class: 'btn btn-outline-warning' %>
+    <%= link_to '次の問題へ', new_room_question_path(@room), class: 'btn btn-primary' %>
     <% if @room.latest_question.present? %>
       <%= link_to 'ゲームを終了して結果を見る', finish_room_path(@room), method: :patch, data: {confirm: "最終結果を表示します"}, class: 'btn btn-outline-warning' %>
     <% end %>
