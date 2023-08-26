@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
 
     def create
         if Answer.create(answer_params)
+            ActionCable.server.broadcast 'count_channel', {room: @room.id, action: 'answer', count: @question.answers.count}
             redirect_to room_question_path(@room, @question), flash: {success: '回答しました'}
         end
     end

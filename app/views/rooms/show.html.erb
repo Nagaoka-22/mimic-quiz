@@ -1,22 +1,19 @@
-<h1><%= @room.title %></h1>
+<p class="room-title"><%= @room.title %></p>
 
 <ul class="list-inline mb-4">
-  <li class="list-inline-item"><i class="far fa-user"></i> <%= @room.user.name %></li>
+  <li class="list-inline-item"><i class="far fa-user"></i> <span id="room-creator-name"><%= @room.user.name %></span></li>
   <li class="list-inline-item"><i class="far fa-calendar"></i> <%= l @room.created_at, format: :short %></li>
 </ul>
 
 <div class="mb-4">
 <ul>
-  <li>ルームURL：<%= request.url %></li>
-  <%# コピーボタン/jsで実装 %>
+  <li>ルームID：<%= @room.id %></li>
   <li>パスワード：<%= @room.password %></li>
 </ul>
 </div>
-  <p>参加人数:<span id="total_members"><%= @members.count %></span>人</p>
 
   <% if current_user.owner?(@room) %>
-  <h3>ルームの主役を選択</h3>
-  <p>3人以上でゲームが開始できます</p>
+  <h2>ルームの主役を選択</h2>
     <%= form_with model: @room, url: setting_room_path(@room) do |f| %>
     	<div id="room-heroes">
       <% @members.each_with_index do |member, index| %>
@@ -30,12 +27,10 @@
         </label>
       <% end %>
       </div>
-      <% if @members.count >= 1 %>
-        <%= f.submit 'ゲームを開始する', class: 'btn btn-primary' %>
-      <% end %>
+      <%= f.submit 'ゲームを開始する', id: 'js-submit', class: 'btn btn-primary', disabled: @members.count < 3 %>
     <% end %>
   <% else %>
-  <h3>参加メンバー</h3>
+  <h2>参加メンバー</h2>
     <ul id="members">
       <% @members.each do |member| %>
         <li id="member-<%= member.id %>">
@@ -44,5 +39,7 @@
       <% end %>
     </ul>
   <% end %>
-
+<p>参加人数:<span id="total_members"><%= @members.count %></span>人</p>
+<p>3人以上でゲームが開始できます</p>
 <%= render 'links' %>
+<%= render 'shared/room_id' %>

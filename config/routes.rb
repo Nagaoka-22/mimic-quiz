@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get '/terms' => 'static_pages#terms'
   get '/privacy_policy' => 'static_pages#privacy_policy'
+  post '/search' => 'rooms#search'
   
   resources :rooms, only: %i[index new create show destroy] do
     member do

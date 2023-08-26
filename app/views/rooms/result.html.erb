@@ -1,11 +1,16 @@
 <h2>最終結果</h2>
-<%= @room.status %>
 <table>
+<thead>
+<tr>
+  <th>名前</th>
+  <th>総得票数</th>
+</tr>
+</thead>
   <tbody>
-  <% @room.results.each do |result| %>
+  <% @members.each do |member| %>
   <tr>
-    <th><%= result.whose %></th>
-    <td><%= result.count_votes %>/<%= @room.count_total_votes %></td>
+    <th><%= member.name %></th>
+    <td><%= member.result(@room) %>/<%= @room.count_total_votes %></td>
   </tr>
   <% end %>
   </tbody>
@@ -13,15 +18,20 @@
 
 <% @room.result_answers.each do |question| %>
 <h3><%= question.content %></h3>
-<ul>
+<table>
+<tr>
+  <th>名前</th>
+  <th>回答内容</th>
+  <th>投票数</th>
+</tr>
 <% question.result_votes.each do |answer| %>
-<li>
-    <%= answer.user.name %>
-    <%= answer.content %>
-    <%= answer.count_votes %>/<%= question.count_votes %>
-</li>
+<tr>
+    <td><%= answer.user.name %></td>
+    <td><%= answer.content %></td>
+    <td><%= answer.count_votes %>/<%= question.count_votes %></td>
+</tr>
 <% end %>
-</ul>
+</table>
 <% end %>
 
 <%= render 'links' %>

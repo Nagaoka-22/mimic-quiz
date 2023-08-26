@@ -4,7 +4,7 @@
     <%= render 'shared/error_messages', object: f.object %>
   	<div class="form-group">
       <%= f.label :content %>
-      <%= f.text_field :content, class:"form-control" %>
+      <%= f.text_field :content, class:"form-control", required: true %>
     </div>
     <%= f.submit '出題する', class:"btn btn-primary" %>
   <% end %>

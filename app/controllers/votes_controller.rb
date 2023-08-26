@@ -4,6 +4,7 @@ class VotesController < ApplicationController
 
     def create
         if Vote.create(vote_params)
+            ActionCable.server.broadcast 'count_channel', {room: @room.id, action: 'vote', count: @question.count_votes}
             redirect_to room_question_path(@room, @question), flash: {success: '投票しました'}
         end
     end
