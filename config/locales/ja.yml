@@ -1,5 +1,7 @@
 ---
 ja:
+  site:
+    title: 'なりきりクイズ'
   activerecord:
     errors:
       messages:

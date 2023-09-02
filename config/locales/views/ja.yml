@@ -1,0 +1,19 @@
+ja:
+  defaults:
+    login: 'ログイン'
+    register: '登録'
+    logout: 'ログアウト'
+  static_pages:
+    terms:
+      title: '利用規約'
+    privacy_policy:
+      title: 'プライバシーポリシー'
+  rooms:
+    index:
+      title: '参加済みルーム一覧'
+    new:
+      title: '新規ルーム作成'
+  users:
+    new:
+      title: 'ユーザー登録'
+      to_login_page: 'ログインページへ'

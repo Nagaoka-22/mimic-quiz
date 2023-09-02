@@ -1,11 +1,11 @@
 <footer class="mt-3">
   <div class='container'>
     <ul class="footer-links">
-      <li><%= link_to '利用規約', terms_path %></li>
-      <li><%= link_to 'プライバシーポリシー', privacy_policy_path %></li>
+      <li><%= link_to t('static_pages.terms.title'), terms_path %></li>
+      <li><%= link_to t('static_pages.privacy_policy.title'), privacy_policy_path %></li>
     </ul>
     <div class='copyright'>
-      <p>© 2023 MimicQuiz</p>
+      <p>&copy; 2023 <%= t('site.title') %></p>
     </div>
   </div>
 </footer>

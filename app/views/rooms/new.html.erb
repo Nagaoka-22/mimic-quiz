@@ -1,7 +1,8 @@
 <% content_for :title, t('.title') %>
+<section>
 <div class="row">
   <div class="col-lg-8 offset-lg-2">
-    <h1><%= t('.title') %></h1>
+    <h2><%= t('.title') %></h2>
     <%= form_with model: @room, local: true do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
       <div class="form-group">
@@ -16,3 +17,4 @@
     <% end %>
   </div>
 </div>
+</section>
