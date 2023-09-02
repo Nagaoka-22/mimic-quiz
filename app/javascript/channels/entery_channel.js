@@ -32,9 +32,9 @@ consumer.subscriptions.create("EnteryChannel", {
         }
 
         const submit_btn = document.getElementById("js-submit")
-        if (data.count >= 2 && submit_btn.disabled == true) {
+        if (data.count >= 3 && submit_btn.disabled == true) {
           submit_btn.removeAttribute("disabled");
-        } else if (data.count < 2 && submit_btn.disabled == false) {
+        } else if (data.count < 3 && submit_btn.disabled == false) {
           submit_btn.setAttribute("disabled", true);
         }
 
