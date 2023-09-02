@@ -13,30 +13,101 @@
  *= require_tree .
  *= require_self
  */
-@import "top";
+ @import "static_pages";
+@import "rooms";
+@import "questions";
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
-ul {
-   margin-bottom: 0;
+body {
+   background: #f2f2f2;
+   color: #241916;
+   font-family: "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic",
+      "Meiryo", sans-serif;
+   h2 {
+      font-size: 1.6rem;
+   }
+   h3 {
+      font-size: 1.3rem;
+   }
+}
+section {
+   padding: 60px 0;
+}
+.btn {
+   background: #fff;
+   &.btn-primary {
+      background: #007bff;
+   }
+}
+header,
+footer {
+   padding: 10px 0;
+   background: #ffd739;
+   margin: 0;
+}
+header {
+   .logo {
+      font-size: 1.5rem;
+      color: #203690;
+   }
+   .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      @media screen and (max-width: 600px) {
+         display: block;
+         nav ul {
+            justify-content: end;
+         }
+      }
+   }
+}
+footer {
+   text-align: center;
+   .footer-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      li {
+         margin: 0 10px;
+      }
+   }
 }
 a {
    color: inherit;
+   transition: all 0.3s;
    &:hover {
       color: unset;
+   }
+}
+ol,
+ul {
+   list-style: none;
+   margin-bottom: 0;
+   padding: 0;
+}
+p {
+   margin-bottom: 0;
+}
+small {
+   line-height: 1.8;
+   display: block;
+   opacity: 0.8;
+}
+.inner {
+   max-width: 1080px;
+   padding: 0 40px;
+   margin: 0 auto;
+   @media screen and (max-width: 600px) {
+      padding: 0 15px;
    }
 }
 form {
    max-width: 680px;
 }
-.devise-links {
-   a {
-      &:not(:last-child) {
-         margin-right: 2rem;
-      }
-   }
-}
+
 #error_explanation {
    border: 1px solid #ff4500;
    padding: 1rem 0;
@@ -51,7 +122,7 @@ form {
    }
 }
 .flash-notifications {
-   padding: 0.5rem 1rem;
+   line-height: 2.2;
    font-weight: bold;
    color: white;
    text-align: center;
@@ -66,5 +137,28 @@ form {
    }
    .alert {
       background-color: #ff4500;
+   }
+}
+
+
+// devise
+.registrations,
+.passwords,
+.sessions {
+   section {
+      padding: 30px 0;
+   }
+   form {
+      margin-top: 20px;
+      label {
+         margin-bottom: 0px;
+      }
+   }
+}
+.devise-links {
+   a {
+      &:not(:last-child) {
+         margin-right: 2rem;
+      }
    }
 }

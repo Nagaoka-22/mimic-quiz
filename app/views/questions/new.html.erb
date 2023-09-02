@@ -1,26 +1,35 @@
-<% content_for :title, t('.title') %>
-<div class="row">
-  <div class="col-lg-8 offset-lg-2">
-    <h2><%= @room.hero_user.name %>になりきれ！</h2>
-    <p><%= @room.count_questions + 1 %>問目</p>
-    <%= form_with model: @question, url: [@room, @question],  local: true do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
-    	<div class="form-group">
-      <% @members.each_with_index do |member, index| %>
-        <label>
-        <% if index == 0 %>
-            <%= f.radio_button :user_id, member.id, checked: true %>
-        <% else %>
-            <%= f.radio_button :user_id, member.id %>
+<% content_for :title, @room.title %>
+<section>
+  <div class="inner">
+    <div class="questions-info">
+      <ul>
+        <li>主役：<%= @room.hero_user.name %></li>
+        <li>参加人数：<%= @members.count %></li>
+        <li>進行担当：<%= @room.user.name %></li>
+      </ul>
+    </div>
+    <div class="question-new-content">
+      <h2><%= @room.count_questions + 1 %>問目の出題者</h2>
+      <small>※ 出題者は主役以外のユーザーからを選べます</small>
+      <%= form_with model: @question, url: [@room, @question],  local: true do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+      	<div class="form-group">
+        <% @members.each_with_index do |member, index| %>
+          <label>
+          <% if index == 0 %>
+              <%= f.radio_button :user_id, member.id, checked: true %>
+          <% else %>
+              <%= f.radio_button :user_id, member.id %>
+          <% end %>
+              <%= member.name %>
+          </label>
         <% end %>
-            <%= member.name %>
-        </label>
+        </div>
+        <%= f.hidden_field :room_id, :value => @room.id %>
+        <%= f.submit '出題者を決定', class:"btn btn-primary" %>
+      <%= link_to '戻る', room_path(@room), class: 'btn btn-outline-warning' %>
       <% end %>
-      </div>
-      <%= f.hidden_field :room_id, :value => @room.id %>
-      <%= f.submit '出題者を決定', class:"btn btn-primary" %>
-    <% end %>
-    <%= link_to '戻る', room_path(@room), class: 'btn btn-outline-warning' %>
+    </div>
 </div>
-</div>
+</section>
 <%= render 'shared/room_id' %>

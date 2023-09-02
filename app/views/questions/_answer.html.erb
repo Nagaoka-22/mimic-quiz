@@ -1,16 +1,22 @@
-<p>回答：<span id="total_answers"><%= @answers.count %></span>/<%= @members.count %>人</p>
-<h2>問題：<%= @question.content %></h2>
+<div class="room-info">
+  <h2><%= "#{@room.count_questions}問目「#{@question.content}」" %></h2>
+  <p>回答：<span id="total_answers"><%= @answers.count %></span>/<%= @members.count %>人</p>
+</div>
+
 <% if current_user.answered?(@question) %>
- <p>回答済み。あなたの回答は<%= current_user.answer(@question).content %></p>
+<div class="answer-status">
+ <p>あなたの回答は「<%= current_user.answer(@question).content %>」</p>
  <% if current_user.owner?(@room) %>
    <%= link_to '投票を開始する', vote_room_question_path(@room, @question), method: :patch, class: 'btn btn-primary', data: {confirm: "回答を締め切って投票を開始します"} %>
+  <% else %>
+   <small>投票の開始までしばらくお待ちください</small>
  <% end %>
+</div>
 <% else %>
    <%= form_with model: @answer, url: room_question_answers_path(@room, @question), local: true do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
   	<div class="form-group">
-      <%= f.label :content %>
-      <%= f.text_field :content, class:"form-control", required: true %>
+      <%= f.text_field :content, class:"form-control", required: true, placeholder: "#{@room.hero_user.name} さんになりきって回答しましょう" %>
        <%= f.hidden_field :user_id, :value => current_user.id %>
        <%= f.hidden_field :question_id, :value => @question.id %>
     </div>

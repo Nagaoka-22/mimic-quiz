@@ -1,7 +1,7 @@
-<header class="mb-3">
-  <div class="container d-flex align-items-center justify-content-between">
+<header>
+  <div class="container">
     <h1 class="logo">
-      <%= link_to 'なりきりクイズ', root_path %>
+      <%= link_to t('site.title'), root_path %>
     </h1>
     <nav class="header-nav">
       <ul class="d-flex align-items-center list-unstyled">
@@ -10,8 +10,10 @@
             <i class="nav-icon fas fa-user"></i>
             <span id="current-user-name"><%= current_user.name %></span>
           <% end %></li>
-          <% unless current_page?(rooms_path) %>
-          <li class="mr-2 btn btn-outline-primary"><%= link_to 'ルーム一覧', rooms_path %></li>
+          <% if current_page?(rooms_path) %>
+            <li class="mr-2 btn btn-outline-primary"><%= link_to 'ルーム作成', new_room_path %></li>
+          <% else %>
+            <li class="mr-2 btn btn-outline-primary"><%= link_to 'ルーム一覧', rooms_path %></li>
           <% end %>
           <li class="mr-2 btn btn-outline-warning"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
         <% else %>

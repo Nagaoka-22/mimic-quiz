@@ -1,0 +1,89 @@
+<section class="top-fv">
+  <div class="inner">
+    <div class="top-fv_content">
+      <h2>なりきりクイズ</h2>
+      <p>友人同士、仕事仲間、初対面。。。<br>お互いのことがよりわかるクイズアプリ！</p>
+      <small>最低プレイ人数3人 / 推奨人数4〜6人</small>
+      <ul class="top-fv_button">
+        <% if user_signed_in? %>
+          <li class="btn btn-outline-primary"><%= link_to 'ルームを作成する', new_room_path %></li>
+          <li class="btn btn-outline-primary"><%= link_to 'ルームに参加する', rooms_path %></li>
+        <% else %>
+          <li class="btn btn-outline-primary"><%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path %></li>
+          <li class="btn btn-primary"><%= link_to t('devise.sessions.new.sign_in'), new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="top-flow">
+  <p class="subtitle">HOW TO PLAY</p>
+  <div class="inner">
+    <h2>遊び方</h2>
+    <div class="top-flow_button">
+      <ul id="js-filter-buttons">
+        <li class="btn btn-outline-primary active" data-flow="ルーム参加者">ルーム参加者</li>
+        <li class="btn btn-outline-primary" data-flow="ルーム作成者">ルーム作成者</li>
+      </ul>
+      <small>※ ゲーム開始にはユーザー登録が必要です。</small>
+    </div>
+    <div id="js-filter-contents">
+    <div class="top-flow_content active" data-flow="ルーム参加者">
+      <ol>
+        <li>
+          <span>1</span>
+          <h3>ルーム参加</h3>
+          <p>IDとパスワードを使ってルームに参加！</p>
+        </li>
+        <li>
+          <span>2</span>
+          <h3>出題</h3>
+          <p>ゲームの主役に関する問題を出題！<br><small>※ 誰が出題者になるかはルーム作成者が決めます</small></p>
+        </li>
+        <li>
+          <span>3</span>
+          <h3>回答</h3>
+          <p>ルームの主役になりきって回答しましょう！</p>
+        </li>
+        <li>
+          <span>4</span>
+          <h3>投票</h3>
+          <p>回答が出そろったら投票開始！<br>どの回答が主役のものか予想しましょう</p>
+        </li>
+        <li>
+          <span>5</span>
+          <h3>結果発表</h3>
+          <p>回答者と集まった票数が発表されます。<br>自分の回答に集まった票数がゲームの得点です。</p>
+        </li>
+      </ol>
+      <small>※ ルームの主役は出題・投票できません</small>
+    </div>
+    <div class="top-flow_content" data-flow="ルーム作成者">
+      <ol>
+        <li>
+          <span>1</span>
+          <h3>ルーム作成</h3>
+          <p><%= link_to 'ルームを作成', new_room_path %>し、参加者にIDとパスワードを共有！</p>
+        </li>
+        <li>
+          <span>2</span>
+          <h3>ゲーム開始</h3>
+          <p>参加者が3人以上集まったらゲーム開始！<br>ゲームの主役となるユーザーを決めましょう。</p>
+        </li>
+        <li>
+          <span>3</span>
+          <h3>司会進行</h3>
+          <p>出題者の決定、投票の開始・終了などの進行はルーム作成者が行います。</p>
+        </li>
+        <li>
+          <span>4</span>
+          <h3>ゲーム終了</h3>
+          <p>ゲームの終了はルーム作成者が決めます。<br>もう一度遊びたい場合は新しくルームを作成！</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+  </div>
+</section>
+

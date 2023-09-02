@@ -1,27 +1,44 @@
-<h2>「<%= @question.content %>」への回答</h2>
-<p>投票：<span id="total_votes"><%= @question.count_votes %></span>/<%= @room.members_without_hero.count %>人</p>
+<div class="room-info">
+  <h2><%= "#{@room.count_questions}問目「#{@question.content}」" %></h2>
+  <p>投票：<span id="total_votes"><%= @question.count_votes %></span>/<%= @room.members_without_hero.count %>人</p>
+  <small>※ ゲームの主役は投票できません</small>
+</div>
 
+
+
+<h3>回答一覧</h3>
+<div class="vote-content">
 <% if current_user.hero?(@room) %>
-<p>※ ゲームの主役は投票できません。進行を待ちましょう</p>
-<ul>
-      <% @answers.each do |answer| %>
-        <% if answer.user_id == current_user.id %>
-          <li><%= answer.content %>(あなたの回答)</li>
-        <% else %>
-            <li><%= answer.content %></li>
-        <% end %>
-      <% end %>
-</ul>
-<% elsif current_user.voted?(@question) %>
-  <p>投票済み：<%= current_user.voted_answer(@question).content %></p>
-<% else %>
-  <%= form_with model: @vote, url: room_question_votes_path(@room, @question), local: true do |f| %>
+
+  <ul>
     <% @answers.each do |answer| %>
       <% if answer.user_id == current_user.id %>
-        <label><%= answer.content %>(あなたの回答)</label>
+        <li class="my-answer"><%= answer.content %></li>
+      <% else %>
+        <li><%= answer.content %></li>
+      <% end %>
+    <% end %>
+  </ul>
+  <small>※ 進行をお待ちください</small>
+
+<% elsif current_user.voted?(@question) %>
+
+  <p>投票済み：<%= current_user.voted_answer(@question).content %></p>
+  <small>※ 投票済み。進行をお待ちください</small>
+
+<% else %>
+
+  <%= form_with model: @vote, url: room_question_votes_path(@room, @question), local: true do |f| %>
+    <% @answers.each_with_index do |answer, i| %>
+      <% if answer.user_id == current_user.id %>
+        <label class="my-answer"><%= answer.content %></label>
       <% else %>
         <label>
+        <% if i == 0 %>
+            <%= f.radio_button :answer_id, answer.id, checked: true %>
+        <% else %>
             <%= f.radio_button :answer_id, answer.id %>
+        <% end %>
             <%= answer.content %>
         </label>
       <% end %>
@@ -31,10 +48,14 @@
     <% if @answers.count > 1 %>
       <%= f.submit '投票する', class: 'btn btn-primary' %>
     <% end %>
-    <p>※ 自分の回答には投票できません</p>
+    <small>※ 自分の回答には投票できません</small>
   <% end %>
+
 <% end %>
+</div>
 
 <% if current_user.owner?(@room) %>
+<div class="vote-link">
   <%= link_to '結果を表示する', result_room_question_path(@room, @question), method: :patch, class: 'btn btn-primary', data: {confirm: "投票を締め切って結果を表示します"} %>
+</div>
 <% end %>
