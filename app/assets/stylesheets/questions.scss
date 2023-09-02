@@ -2,3 +2,92 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+body.questions {
+    .questions-info {
+        ul {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            li {
+                &:not(:first-child) {
+                    display: flex;
+                    align-items: center;
+                    &::before {
+                        display: block;
+                        content: "/";
+                        margin: 0 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+    .result-content,
+    .question-new-content,
+    .question-content,
+    .room-info {
+        background: #fff;
+        border-radius: 20px;
+        border: 3px solid #ffd739;
+        padding: 20px 40px;
+        margin: 15px 0;
+        @media screen and (max-width: 600px ) {
+            padding: 20px 20px;
+        }
+        h2 {
+            font-size: 1.2rem;
+        }
+    }
+    .answer-status {
+        p {
+            font-size: 1.2rem;
+        }
+        .btn {
+            margin-top: 10px;
+        }
+    }
+    .question-new-content,
+    .vote-content {
+        form {
+            label {
+                display: block;
+                &.my-answer {
+                    padding-left: 1rem;
+                }
+            }
+        }
+    }
+    .vote-content {
+        padding: 0 20px;
+        h3 {
+            font-size: 1.1rem;
+        }
+        .my-answer {
+            opacity: .7;
+        }
+        ul {
+            list-style: disc;
+        }
+    }
+    .result-content {
+        table {
+            margin-top: 10px;
+            border-collapse: collapse;
+            min-width: 40%;
+            thead th {
+                font-weight: normal;
+                padding: 0.2rem 0.5rem;
+            }
+            td {
+                border-bottom: 1px solid #ffd739;
+                padding: 0.2rem 0.5rem;
+            }
+        }
+    }
+    .result-link {
+        display: flex;
+        align-items: center;
+        li {
+            margin: 5px;
+        }
+    }
+}

@@ -1,13 +1,15 @@
-<% if current_user.id == @question.user_id %>
-  <p>あなたが出題者です</p>
-  <%= form_with model: @question, url: ask_room_question_path(@room, @question), method: :patch, local: true do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
-  	<div class="form-group">
-      <%= f.label :content %>
-      <%= f.text_field :content, class:"form-control", required: true %>
-    </div>
-    <%= f.submit '出題する', class:"btn btn-primary" %>
+<div class="question-content">
+  <h2><%= @room.count_questions %>問目</h2>
+  <% if current_user.id == @question.user_id %>
+    <small>あなたが出題者です。</small>
+    <%= form_with model: @question, url: ask_room_question_path(@room, @question), method: :patch, local: true do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+    	<div class="form-group">
+        <%= f.text_field :content, class:"form-control", required: true, placeholder: '例）自分を漢字2文字で表すと？' %>
+      </div>
+      <%= f.submit '出題する', class:"btn btn-primary", data: {confirm: "出題します"} %>
+    <% end %>
+  <% else %>
+    <p><%= @question.user.name %>さんの出題をお待ちください</p>
   <% end %>
-<% else %>
-  <p><%= @question.user.name %>さんの出題をお待ちください</p>
-<% end %>
+</div>

@@ -1,11 +1,13 @@
 <% content_for :title, @room.title %>
-<div class="row">
-  <div class="col-lg-8 offset-lg-2">
-    <div class="room-info">
-      <p class="room-title"><%= @room.title %></p>
-      <p>参加人数：<%= @members.count %></p>
-      <p><%= @room.hero_user.name %>になりきれ！</p>
-      <p><%= @room.count_questions %>問目</p>
+
+<section>
+  <div class="inner">
+    <div class="questions-info">
+    <ul>
+      <li>主役：<%= @room.hero_user.name %></li>
+      <li>参加人数：<%= @members.count %></li>
+      <li>進行担当：<%= @room.user.name %></li>
+    </ul>
     </div>
     <% if @question.question? %>
       <%= render 'question' %>
@@ -17,5 +19,5 @@
       <%= render 'result' %>
     <% end %>
   </div>
-</div>
+</section>
 <%= render 'shared/room_id' %>

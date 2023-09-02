@@ -13,8 +13,9 @@
  *= require_tree .
  *= require_self
  */
+ @import "static_pages";
 @import "rooms";
-@import "static_pages";
+@import "questions";
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
@@ -91,6 +92,8 @@ p {
    margin-bottom: 0;
 }
 small {
+   line-height: 1.8;
+   display: block;
    opacity: 0.8;
 }
 .inner {
