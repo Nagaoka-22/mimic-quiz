@@ -2,12 +2,14 @@
 <div class="container pt-3">
 <h2><%= t('.title') %></h2>
 
+<div class="search-room">
 <%= form_with url: search_path, method: :post, local: true do |f| %>
   <div class="form-group">
     <%= f.text_field :room_id, class: 'form-control', required: true, placeholder: 'ルームIDを入力' %>
     <%= f.submit 'ルームを検索する', class:"btn btn-primary" %>
   </div>
 <% end %>
+</div>
 
   <div class="row">
     <div class="col-12">
@@ -15,7 +17,7 @@
         <% if @rooms.present? %>
           <%= render @rooms %>
         <% else %>
-          現在参加中のルームはありません
+          <p>現在参加中のルームはありません</p>
         <% end %>
       </div>
     </div>

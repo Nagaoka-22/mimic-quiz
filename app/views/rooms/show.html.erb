@@ -1,45 +1,56 @@
-<p class="room-title"><%= @room.title %></p>
+<% content_for :title, @room.title %>
 
-<ul class="list-inline mb-4">
-  <li class="list-inline-item"><i class="far fa-user"></i> <span id="room-creator-name"><%= @room.user.name %></span></li>
-  <li class="list-inline-item"><i class="far fa-calendar"></i> <%= l @room.created_at, format: :short %></li>
-</ul>
+  <section class="rooms_show">
+    <div class="inner">
 
-<div class="mb-4">
-<ul>
-  <li>ルームID：<%= @room.id %></li>
-  <li>パスワード：<%= @room.password %></li>
-</ul>
-</div>
-
-  <% if current_user.owner?(@room) %>
-  <h2>ルームの主役を選択</h2>
-    <%= form_with model: @room, url: setting_room_path(@room) do |f| %>
-    	<div id="room-heroes">
-      <% @members.each_with_index do |member, index| %>
-        <label>
-        <% if index == 0 %>
-          <%= f.radio_button :hero_id, member.id, checked: true %>
-        <% else %>
-          <%= f.radio_button :hero_id, member.id %>
-        <% end %>
-          <%= member.name %>
-        </label>
-      <% end %>
+      <div class="rooms_show-info">
+        <h2><%= @room.title %></h2>
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <i class="far fa-user"></i> <span id="room-creator-name"><%= @room.user.name %></span></li>
+          <li class="list-inline-item">
+            <i class="far fa-calendar"></i> <%= l @room.created_at, format: :short %>
+          </li>
+        </ul>
+        <ul class="share-data">
+          <li>ルームID：<%= @room.id %></li>
+          <li>パスワード：<%= @room.password %></li>
+        </ul>
+        <small>3人以上でゲームが開始できます。<br>IDとパスワードを共有して参加者を集めましょう！</small> 
       </div>
-      <%= f.submit 'ゲームを開始する', id: 'js-submit', class: 'btn btn-primary', disabled: @members.count < 3 %>
-    <% end %>
-  <% else %>
-  <h2>参加メンバー</h2>
-    <ul id="members">
-      <% @members.each do |member| %>
-        <li id="member-<%= member.id %>">
-          <%= member.name %>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
-<p>参加人数:<span id="total_members"><%= @members.count %></span>人</p>
-<p>3人以上でゲームが開始できます</p>
-<%= render 'links' %>
-<%= render 'shared/room_id' %>
+
+      <div class="rooms_show-content">
+        <h3>参加人数: <span id="total_members"><%= @members.count %></span>人</h3>
+        <% if current_user.owner?(@room) %>
+          <p>ルームの主役を選択</p>
+          <%= form_with model: @room, url: setting_room_path(@room) do |f| %>
+            <div id="room-heroes">
+              <% @members.each_with_index do |member, index| %>
+                <label>
+                  <% if index==0 %>
+                    <%= f.radio_button :hero_id, member.id, checked: true %>
+                  <% else %>
+                    <%= f.radio_button :hero_id, member.id %>
+                  <% end %>
+                  <%= member.name %>
+                </label>
+              <% end %>
+            </div>
+            <%= f.submit 'ゲームを開始する' , id: 'js-submit' , class: 'btn btn-primary' , disabled: @members.count < 3 %>
+          <% end %>
+        <% else %>
+          <p>参加メンバー</p>
+          <ul id="members">
+            <% @members.each do |member| %>
+            <li id="member-<%= member.id %>">
+              <%= member.name %>
+            </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+                  
+    <%= render 'links' %>
+    <%= render 'shared/room_id' %>
+    </div>
+  </section>

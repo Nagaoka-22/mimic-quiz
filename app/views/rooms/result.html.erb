@@ -1,37 +1,53 @@
-<h2>最終結果</h2>
-<table>
-<thead>
-<tr>
-  <th>名前</th>
-  <th>総得票数</th>
-</tr>
-</thead>
-  <tbody>
-  <% @members.each do |member| %>
-  <tr>
-    <th><%= member.name %></th>
-    <td><%= member.result(@room) %>/<%= @room.count_total_votes %></td>
-  </tr>
-  <% end %>
-  </tbody>
-</table>
+<% content_for :title, @room.title %>
+<section class="rooms_result">
+  <div class="inner">
 
-<% @room.result_answers.each do |question| %>
-<h3><%= question.content %></h3>
-<table>
-<tr>
-  <th>名前</th>
-  <th>回答内容</th>
-  <th>投票数</th>
-</tr>
-<% question.result_votes.each do |answer| %>
-<tr>
-    <td><%= answer.user.name %></td>
-    <td><%= answer.content %></td>
-    <td><%= answer.count_votes %>/<%= question.count_votes %></td>
-</tr>
-<% end %>
-</table>
-<% end %>
-
-<%= render 'links' %>
+    <div class="rooms_result-total">
+    <h2>最終結果</h2>
+    <p><%= @room.hero_user.name %> のイメージに近いのは。。。</p>
+    <table>
+    <thead>
+    <tr>
+      <th>名前</th>
+      <th>総得票数</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% @members.each do |member| %>
+      <tr>
+        <td><i class="far fa-user"></i> <%= member.name %></td>
+        <td><%= member.result(@room) %>/<%= @room.count_total_votes %></td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </div>
+    
+    <% @room.result_answers.each_with_index do |question, i| %>
+    <div class="rooms_result-item">
+      <h3><%= "#{i+1}問目：#{question.content}" %></h3>
+      <table>
+        <thead>
+        <tr>
+          <th>名前</th>
+          <th>回答内容</th>
+          <th>投票数</th>
+        </tr>
+        </thead>
+      <tbody>
+      <% question.result_votes.each do |answer| %>
+      <tr>
+          <td><i class="far fa-user"></i> <%= answer.user.name %></td>
+          <td><%= answer.content %></td>
+          <td><%= answer.count_votes %>/<%= question.count_votes %></td>
+      </tr>
+      <% end %>
+      </tbody>
+      </table>
+    </div>
+    <% end %>
+    
+    <%= render 'links' %>
+    
+  </div>
+</section>

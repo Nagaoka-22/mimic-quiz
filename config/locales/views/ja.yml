@@ -13,6 +13,8 @@ ja:
       title: '参加済みルーム一覧'
     new:
       title: '新規ルーム作成'
+    enter:
+      title: 'ルームに参加'
   users:
     new:
       title: 'ユーザー登録'
