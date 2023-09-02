@@ -3,9 +3,6 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 body.static_pages {
-    section {
-        padding: 60px 0;
-    }
     .privacy-policy,
     .terms {
         .inner {
@@ -36,11 +33,17 @@ body.static_pages {
             margin: 0 auto;
             position: relative;
             text-align: center;
+            @media screen and (max-width: 600px) {
+                padding: 20px 10px;
+            }
             h2 {
                 margin-bottom: 20px;
             }
             ul {
-                margin-top: 10px;
+                margin-top: 5px;
+                li {
+                    margin: 5px;
+                }
             }
         }
     }
