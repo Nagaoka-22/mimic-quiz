@@ -7,7 +7,7 @@
     	<div class="form-group">
         <%= f.text_field :content, class:"form-control", required: true, placeholder: '例）自分を漢字2文字で表すと？' %>
       </div>
-      <%= f.submit '出題する', class:"btn btn-primary", data: {confirm: "出題します"} %>
+      <%= f.submit '出題する', class:"btn btn-primary" %>
     <% end %>
   <% else %>
     <p><%= @question.user.name %>さんの出題をお待ちください</p>

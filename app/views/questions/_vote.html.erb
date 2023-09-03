@@ -11,13 +11,12 @@
 <% if current_user.hero?(@room) %>
 
   <ul>
-    <% @answers.each do |answer| %>
-      <% if answer.user_id == current_user.id %>
-        <li class="my-answer"><%= answer.content %></li>
-      <% else %>
+    <% @answers.shuffle.each do |answer| %>
+      <% if answer.user_id != current_user.id %>
         <li><%= answer.content %></li>
       <% end %>
     <% end %>
+    <li class="my-answer"><%= current_user.answer(@question).content %></li>
   </ul>
   <small>※ 進行をお待ちください</small>
 
@@ -29,10 +28,8 @@
 <% else %>
 
   <%= form_with model: @vote, url: room_question_votes_path(@room, @question), local: true do |f| %>
-    <% @answers.each_with_index do |answer, i| %>
-      <% if answer.user_id == current_user.id %>
-        <label class="my-answer"><%= answer.content %></label>
-      <% else %>
+    <% @answers.shuffle.each_with_index do |answer, i| %>
+      <% if answer.user_id != current_user.id %>
         <label>
         <% if i == 0 %>
             <%= f.radio_button :answer_id, answer.id, checked: true %>
@@ -43,6 +40,7 @@
         </label>
       <% end %>
     <% end %>
+    <label class="my-answer"><%= current_user.answer(@question).content %></label>
     <%= f.hidden_field :user_id, :value => current_user.id %>
     <%= f.hidden_field :question_id, :value => @question.id %>
     <% if @answers.count > 1 %>

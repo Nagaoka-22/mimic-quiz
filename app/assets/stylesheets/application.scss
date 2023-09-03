@@ -41,6 +41,21 @@ section {
       background: #007bff;
    }
 }
+.ready {
+   font-weight: bold;
+   color: #45cfb8;
+   animation: flash 1.5s linear infinite;
+   @keyframes flash {
+      0%,
+      100% {
+         opacity: 100%;
+      }
+   
+      50% {
+         opacity: 50%;
+      }
+   }
+}
 header,
 footer {
    padding: 10px 0;
