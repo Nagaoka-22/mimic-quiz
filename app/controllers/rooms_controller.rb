@@ -75,7 +75,11 @@ class RoomsController < ApplicationController
   private
 
   def set_room
-    @room = Room.find(params[:id])
+    @room = Room.find_by(id: params[:id])
+
+    if @room.nil?
+       redirect_to root_path, alert: "指定されたルームが見つかりませんでした。"
+    end
   end
 
   def set_members
