@@ -28,14 +28,10 @@
 <% else %>
 
   <%= form_with model: @vote, url: room_question_votes_path(@room, @question), local: true do |f| %>
-    <% @answers.shuffle.each_with_index do |answer, i| %>
+    <% @answers.shuffle.each do |answer| %>
       <% if answer.user_id != current_user.id %>
         <label>
-        <% if i == 0 %>
-            <%= f.radio_button :answer_id, answer.id, checked: true %>
-        <% else %>
-            <%= f.radio_button :answer_id, answer.id %>
-        <% end %>
+            <%= f.radio_button :answer_id, answer.id, required: true %>
             <%= answer.content %>
         </label>
       <% end %>
@@ -43,9 +39,8 @@
     <label class="my-answer"><%= current_user.answer(@question).content %></label>
     <%= f.hidden_field :user_id, :value => current_user.id %>
     <%= f.hidden_field :question_id, :value => @question.id %>
-    <% if @answers.count > 1 %>
-      <%= f.submit '投票する', class: 'btn btn-primary' %>
-    <% end %>
+    <%= f.hidden_field :room_id, :value => @room.id %>
+    <%= f.submit '投票する', class: 'btn btn-primary' %>
     <small>※ 自分の回答には投票できません</small>
   <% end %>
 

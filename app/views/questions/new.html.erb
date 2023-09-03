@@ -14,13 +14,9 @@
       <%= form_with model: @question, url: [@room, @question],  local: true do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
       	<div class="form-group">
-        <% @members.each_with_index do |member, index| %>
+        <% @members.each do |member| %>
           <label>
-          <% if index == 0 %>
-              <%= f.radio_button :user_id, member.id, checked: true %>
-          <% else %>
-              <%= f.radio_button :user_id, member.id %>
-          <% end %>
+              <%= f.radio_button :user_id, member.id, required: true %>
               <%= member.name %>
           </label>
         <% end %>
