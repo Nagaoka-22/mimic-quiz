@@ -20,4 +20,14 @@ jQuery(function ($) {
         })
     })
 
+    // 質問サンプルに関するポップ
+    $('a#popup-show').on('click',function(){
+        $('#js-popup').addClass('show').fadeIn();
+        return false;
+    });
+      
+    $('a#popup-close').on('click',function(){
+        $('#js-popup').fadeOut();
+        return false;
+    });
 });
