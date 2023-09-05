@@ -42,6 +42,7 @@
     <%= f.hidden_field :room_id, :value => @room.id %>
     <%= f.submit '投票する', class: 'btn btn-primary' %>
     <small>※ 自分の回答には投票できません</small>
+    <small>※ 主役の回答を当てると最終結果に1ポイント加算されます</small>
   <% end %>
 
 <% end %>
