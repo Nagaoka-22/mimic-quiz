@@ -33,8 +33,8 @@ class Room < ApplicationRecord
     all_questions
   end
 
-  def count_total_votes
-    all_questions.includes(:votes).count
+  def result_members
+    Member.where(room_id: id).order(point: :asc)
   end
   
   private
