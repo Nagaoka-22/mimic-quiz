@@ -13,10 +13,10 @@
     </tr>
     </thead>
     <tbody>
-      <% @members.each do |member| %>
+      <% @room.result_members.each do |member| %>
       <tr>
-        <td><i class="far fa-user"></i> <%= member.name %></td>
-        <td><%= member.result(@room) %>/<%= @room.count_total_votes %></td>
+        <td><%= member.name %></td>
+        <td><%= member.point %></td>
       </tr>
       <% end %>
       </tbody>
@@ -31,7 +31,7 @@
         <tr>
           <th>名前</th>
           <th>回答内容</th>
-          <th>投票数</th>
+          <th>得票数</th>
         </tr>
         </thead>
       <tbody>
@@ -39,7 +39,7 @@
       <tr>
           <td><i class="far fa-user"></i> <%= answer.user.name %></td>
           <td><%= answer.content %></td>
-          <td><%= answer.count_votes %>/<%= question.count_votes %></td>
+          <td><%= answer.count_votes %></td>
       </tr>
       <% end %>
       </tbody>

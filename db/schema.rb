@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_16_105801) do
+ActiveRecord::Schema.define(version: 2023_09_03_120107) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "question_id", null: false
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2023_08_16_105801) do
     t.integer "room_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "point", default: 0, null: false
     t.index ["room_id"], name: "index_members_on_room_id"
     t.index ["user_id", "room_id"], name: "index_members_on_user_id_and_room_id", unique: true
     t.index ["user_id"], name: "index_members_on_user_id"
@@ -74,8 +75,10 @@ ActiveRecord::Schema.define(version: 2023_08_16_105801) do
     t.integer "question_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "room_id", null: false
     t.index ["answer_id"], name: "index_votes_on_answer_id"
     t.index ["question_id"], name: "index_votes_on_question_id"
+    t.index ["room_id"], name: "index_votes_on_room_id"
     t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
@@ -89,5 +92,6 @@ ActiveRecord::Schema.define(version: 2023_08_16_105801) do
   add_foreign_key "rooms", "users", column: "hero_id"
   add_foreign_key "votes", "answers"
   add_foreign_key "votes", "questions"
+  add_foreign_key "votes", "rooms"
   add_foreign_key "votes", "users"
 end

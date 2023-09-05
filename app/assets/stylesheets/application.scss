@@ -13,7 +13,7 @@
  *= require_tree .
  *= require_self
  */
- @import "static_pages";
+@import "static_pages";
 @import "rooms";
 @import "questions";
 @import "bootstrap";
@@ -41,6 +41,21 @@ section {
       background: #007bff;
    }
 }
+.ready {
+   font-weight: bold;
+   color: #45cfb8;
+   animation: flash 1.5s linear infinite;
+   @keyframes flash {
+      0%,
+      100% {
+         opacity: 100%;
+      }
+
+      50% {
+         opacity: 50%;
+      }
+   }
+}
 header,
 footer {
    padding: 10px 0;
@@ -51,6 +66,12 @@ header {
    .logo {
       font-size: 1.5rem;
       color: #203690;
+      font-weight: bolder;
+      text-shadow:
+         1px 1px 3px #fff,
+         1px -1px 3px #fff,
+         -1px 1px 3px #fff,
+         -1px -1px 3px #fff;
    }
    .container {
       display: flex;
@@ -79,8 +100,12 @@ a {
    color: inherit;
    transition: all 0.3s;
    &:hover {
-      color: unset;
+      color: inherit;
    }
+}
+a[href="#"] {
+   color: #007bff;
+   text-decoration: underline;
 }
 ol,
 ul {
@@ -106,6 +131,43 @@ small {
 }
 form {
    max-width: 680px;
+}
+
+.popup {
+   display: none;
+   height: 100vh;
+   width: 100%;
+   background: rgba(black, .7);
+   position: fixed;
+   top: 0;
+   left: 0;
+   &.show {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+   &-content{
+      position: relative;
+      z-index: 2;
+      background: #fff;
+      border: 5px solid #ffd739;
+      padding: 30px;
+      width: 90%;
+      max-width: 480px;
+      max-height: 60vh;
+      overflow: scroll;
+      &_inner {
+         ul {
+            margin-top: 10px;
+            list-style: disc inside;
+         }
+      }
+      a {
+         position: absolute;
+         top: 15px;
+         right: 15px;
+      }
+   }
 }
 
 #error_explanation {
@@ -139,7 +201,6 @@ form {
       background-color: #ff4500;
    }
 }
-
 
 // devise
 .registrations,
