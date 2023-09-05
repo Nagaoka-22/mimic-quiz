@@ -13,7 +13,7 @@
  *= require_tree .
  *= require_self
  */
- @import "static_pages";
+@import "static_pages";
 @import "rooms";
 @import "questions";
 @import "bootstrap";
@@ -50,7 +50,7 @@ section {
       100% {
          opacity: 100%;
       }
-   
+
       50% {
          opacity: 50%;
       }
@@ -66,6 +66,12 @@ header {
    .logo {
       font-size: 1.5rem;
       color: #203690;
+      font-weight: bolder;
+      text-shadow:
+         1px 1px 3px #fff,
+         1px -1px 3px #fff,
+         -1px 1px 3px #fff,
+         -1px -1px 3px #fff;
    }
    .container {
       display: flex;
@@ -154,7 +160,6 @@ form {
       background-color: #ff4500;
    }
 }
-
 
 // devise
 .registrations,
