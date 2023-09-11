@@ -3,6 +3,12 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 body.rooms {
+    > .container {
+        min-height: 560px;
+        @media screen and (max-width: 600px ) {
+            min-height: auto;
+        }
+    }
     .search-room {
         .form-group {
             display: flex;
