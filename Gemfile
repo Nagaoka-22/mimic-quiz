@@ -18,7 +18,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -68,3 +68,10 @@ gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
 
 gem 'enum_help'
+gem "dockerfile-rails", ">= 1.5", :group => :development
+
+# gem "redis", "~> 5.0"
+
+gem "sentry-ruby", "~> 5.10"
+
+gem "sentry-rails", "~> 5.10"
