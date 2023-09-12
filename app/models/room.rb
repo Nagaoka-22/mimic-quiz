@@ -3,7 +3,9 @@ class Room < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :questions, dependent: :destroy
   has_many :votes, dependent: :destroy
-
+  
+  before_create -> { self.id = SecureRandom.uuid }
+  
   enum status:{ready: 0, playing: 1, result: 2 }
 
   validates :title, presence: true, length: { maximum: 20 }

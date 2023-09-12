@@ -12,10 +12,10 @@
             <i class="far fa-calendar"></i> <%= l @room.created_at, format: :short %>
           </li>
         </ul>
-        <ul class="share-data">
-          <li>ルームID：<%= @room.id %></li>
-          <li>パスワード：<%= @room.password %></li>
-        </ul>
+        <div class="share-data">
+          <dl><dt>ルームID：</dt><dd><span><%= @room.id %></span><span class="copyBtn">copy</span></dd></dl>
+          <dl><dt>パスワード：</dt><dd><span><%= @room.password %></span><span class="copyBtn">copy</span></dd></dl>
+        </div>
         <small>3人以上でゲームが開始できます。<br>IDとパスワードを共有して参加者を集めましょう！</small> 
       </div>
 

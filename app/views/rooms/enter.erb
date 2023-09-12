@@ -6,7 +6,7 @@
     <%= form_with model: @room, url: pass_room_path(@room), method: :post, local: true do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
       <div class="form-group">
-        <%= f.label :enter_password, "ルームID:#{@room.id} のパスワード" %>
+        <%= f.label :enter_password, "ルーム名:#{@room.title} のパスワード" %>
         <%= f.text_field :enter_password, class: 'form-control', required: true, placeholder: "パスワードを入力してください" %>
       </div>
       <%= f.submit 'ルームに参加する', class:"btn btn-primary" %>
