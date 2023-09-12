@@ -36,8 +36,11 @@ class RoomsController < ApplicationController
   end
 
   def enter
-    redirect_to room_path(@room) if current_user.members?(@room)
-    redirect_to rooms_path, flash: {success: '募集が締め切られています'} unless @room.ready?
+    if current_user.members?(@room)
+      redirect_to room_path(@room)
+    elsif !@room.ready?
+      redirect_to rooms_path, flash: { success: '募集が締め切られています' }
+    end
   end
 
   def pass

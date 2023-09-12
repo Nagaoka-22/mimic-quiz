@@ -11,6 +11,7 @@ import "channels"
 
 import "jquery"
 import "./top"
+import "./room"
 
 Rails.start()
 Turbolinks.start()

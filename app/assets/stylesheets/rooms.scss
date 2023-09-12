@@ -13,7 +13,7 @@ body.rooms {
         .form-group {
             display: flex;
             input[type="text"] {
-                width: 180px;
+                max-width: 320px;
                 margin-right: 5px;
             }
         }
@@ -48,6 +48,26 @@ body.rooms {
                 padding: 10px 5px;
                 border-top: 2px solid #ffd739;
                 border-bottom: 2px solid #ffd739;
+                dl {
+                    display: flex;
+                    // align-items: center;
+                    margin-bottom: 0;
+                    dt,dd {
+                        margin-bottom: 0;
+                        font-weight: normal;
+                    }
+                }
+                .copyBtn {
+                    font-size: 0.8em;
+                    margin-left: 5px;
+                    padding: 3px 7px;
+                    border-radius: 20px;
+                    background: #ccc;
+                    display: inline-block;
+                    width: 55px;
+                    text-align: center;
+                    cursor: pointer;
+                }
             }
         }
         &-content {
@@ -94,9 +114,33 @@ body.rooms {
             @media screen and (max-width: 600px ) {
                 padding: 20px 20px;
             }
-            tbody tr:first-of-type {
-                font-weight: bold;
-                font-size: 1.1em;
+            tbody td:first-of-type {
+                display: flex;
+                align-items: center;
+                .medal {
+                    border-radius: 50%;
+                    color: #fff;
+                    width: 1.2em;
+                    height: 1.2em;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    font-weight: normal;
+                    &.first {
+                        background: #E3AB00;
+                    }
+                    &.second {
+                        background: #C9CACA;
+                    }
+                    &.third {
+                        background: #BA6E40;
+                    }
+                }
+                .medal, i {
+                    flex-shrink: 0;
+                    margin-right: 5px;
+                }
             }
         }
         &-item {

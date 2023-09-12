@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_03_120107) do
+ActiveRecord::Schema.define(version: 2023_09_12_112038) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "question_id", null: false
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2023_09_03_120107) do
 
   create_table "members", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "room_id", null: false
+    t.string "room_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "point", default: 0, null: false
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2023_09_03_120107) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.integer "room_id", null: false
+    t.string "room_id", null: false
     t.integer "user_id", null: false
     t.string "content"
     t.integer "phase", limit: 1, default: 0, null: false
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2023_09_03_120107) do
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
-  create_table "rooms", force: :cascade do |t|
+  create_table "rooms", id: :string, force: :cascade do |t|
     t.string "title", null: false
     t.string "password", null: false
     t.integer "user_id", null: false
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2023_09_03_120107) do
     t.integer "question_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "room_id", null: false
+    t.string "room_id", null: false
     t.index ["answer_id"], name: "index_votes_on_answer_id"
     t.index ["question_id"], name: "index_votes_on_question_id"
     t.index ["room_id"], name: "index_votes_on_room_id"

@@ -9,18 +9,27 @@
     <thead>
     <tr>
       <th>名前</th>
-      <th>総得票数</th>
+      <th>総得得点</th>
     </tr>
     </thead>
     <tbody>
-      <% @room.result_members.each do |member| %>
+      <% @room.result_members.each_with_index do |member, i| %>
       <tr>
-        <td><%= member.name %></td>
+      <% if i == 0 %>
+        <td><span class="medal first">1</span> <%= member.name %></td>
+      <% elsif i == 1 %>
+        <td><span class="medal second">2</span> <%= member.name %></td>
+      <% elsif i == 2 %>
+        <td><span class="medal third">3</span> <%= member.name %></td>
+      <% else %>
+        <td><i class="far fa-user"></i> <%= member.name %></td>
+      <% end %>
         <td><%= member.point %></td>
       </tr>
       <% end %>
       </tbody>
     </table>
+    <small>※ 総得点は得票数+正解数の合計です</small>
     </div>
     
     <% @room.result_answers.each_with_index do |question, i| %>
