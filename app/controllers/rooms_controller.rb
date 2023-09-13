@@ -1,6 +1,7 @@
 class RoomsController < ApplicationController
   before_action :set_room, except: %i[index new create search]
   before_action :set_members, only: %i[show]
+  before_action :require_normal_user, only: %i[enter pass]
 
   def index
     @join_room_ids = Member.where(user_id: current_user).pluck(:room_id)
@@ -103,5 +104,11 @@ class RoomsController < ApplicationController
 
   def search_params
     params.permit(:room_id)
+  end
+
+  def require_normal_user
+    if current_user.guest_user?
+        redirect_to root_path, alert: 'ゲストユーザーはルームに参加できません'
+    end
   end
 end
