@@ -14,7 +14,12 @@ class RoomsController < ApplicationController
 
   def create
     @room = current_user.rooms.new(room_params)
-    if @room.save
+
+    if current_user.guest_user? && @room.save
+      current_user.join_members(@room)
+      set_guest_room
+      redirect_to room_path(@room), flash: {success: 'ゲストルームが作成されました'}
+    elsif @room.save
       current_user.join_members(@room)
       redirect_to room_path(@room), flash: {success: 'ルームが作成されました'}
     else
@@ -110,5 +115,13 @@ class RoomsController < ApplicationController
     if current_user.guest_user?
         redirect_to root_path, alert: 'ゲストユーザーはルームに参加できません'
     end
+  end
+
+  def set_guest_room
+    guestA = User.guest('a')
+    guestB = User.guest('b')
+
+    guestA.join_members(@room)
+    guestB.join_members(@room)
   end
 end
