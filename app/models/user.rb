@@ -13,6 +13,20 @@ class User < ApplicationRecord
   
   validates :name, presence: true, length: { maximum: 10 }
 
+  def self.guest(x="")
+    guest_email = 'guest' + x + '@example.com'
+    find_or_create_by!(email: guest_email) do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.password_confirmation = user.password
+      user.name = "ゲストユーザー" + x
+    end
+  end
+
+  def guest_user?
+    guest_emails = ['guest@example.com', 'guestA@example.com', 'guestB@example.com'] 
+    guest_emails.include?(self.email)
+  end
+
   def owner?(room)
     room.user_id == id
     # 後でroom.user.nameとなっている（N+1）を解消する
