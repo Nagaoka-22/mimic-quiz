@@ -29,7 +29,6 @@ class User < ApplicationRecord
 
   def owner?(room)
     room.user_id == id
-    # 後でroom.user.nameとなっている（N+1）を解消する
   end
 
   def join_members(room)
