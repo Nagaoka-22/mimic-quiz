@@ -4,8 +4,9 @@ class RoomsController < ApplicationController
   before_action :require_normal_user, only: %i[enter pass]
 
   def index
+    delete_guest_rooms if current_user.guest_user?
     @join_room_ids = Member.where(user_id: current_user).pluck(:room_id)
-    @rooms = Room.where(id: @join_room_ids).includes(:user).order(created_at: :desc).page(params[:page])
+    @rooms = Room.where(id: @join_room_ids).includes(:user).order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def new
@@ -123,5 +124,11 @@ class RoomsController < ApplicationController
 
     guestA.join_members(@room)
     guestB.join_members(@room)
+  end
+
+  def delete_guest_rooms
+    guest_user = User.find_by(email: 'guest@example.com')
+    guest_rooms = Room.where('created_at < ? AND user_id = ?', 30.minutes.ago, guest_user.id)
+    guest_rooms.destroy_all
   end
 end
