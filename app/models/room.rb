@@ -3,16 +3,16 @@ class Room < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :questions, dependent: :destroy
   has_many :votes, dependent: :destroy
-  
+
   before_create -> { self.id = SecureRandom.uuid }
-  
-  enum status:{ready: 0, playing: 1, result: 2 }
+
+  enum status: { ready: 0, playing: 1, result: 2 }
 
   validates :title, presence: true, length: { maximum: 20 }
   validates :password, presence: true, length: { minimum: 3, maximum: 6 }
 
   def hero_user
-    User.find(self.hero_id)
+    User.find(hero_id)
   end
 
   def members
@@ -38,14 +38,14 @@ class Room < ApplicationRecord
   def result_members
     Member.where(room_id: id).order(point: :asc)
   end
-  
-  private
-  
-    def all_questions
-      Question.where(room_id: id)
-    end
 
-    def members_id
-      Member.where(room_id: id).order(created_at: :asc).pluck(:user_id)
-    end
+  private
+
+  def all_questions
+    Question.where(room_id: id)
+  end
+
+  def members_id
+    Member.where(room_id: id).order(created_at: :asc).pluck(:user_id)
+  end
 end

@@ -1,6 +1,6 @@
 class PhaseChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "phase_channel"
+    stream_from 'phase_channel'
   end
 
   def unsubscribed

@@ -19,10 +19,10 @@ class RoomsController < ApplicationController
     if current_user.guest_user? && @room.save
       current_user.join_members(@room)
       set_guest_room
-      redirect_to room_path(@room), flash: {success: 'ゲストルームが作成されました'}
+      redirect_to room_path(@room), flash: { success: 'ゲストルームが作成されました' }
     elsif @room.save
       current_user.join_members(@room)
-      redirect_to room_path(@room), flash: {success: 'ルームが作成されました'}
+      redirect_to room_path(@room), flash: { success: 'ルームが作成されました' }
     else
       flash.now[:danger] = 'ルーム作成に失敗しました'
       render :new
@@ -30,16 +30,16 @@ class RoomsController < ApplicationController
   end
 
   def show
-    unless current_user.members?(@room)
-      redirect_to enter_room_path(@room)
-    else
+    if current_user.members?(@room)
       redirect_to room_question_path(@room, @room.latest_question) if @room.latest_question.present?
+    else
+      redirect_to enter_room_path(@room)
     end
   end
 
   def destroy
     @room.destroy!
-    redirect_to rooms_path, flash: {success: 'ルームを解散しました'}
+    redirect_to rooms_path, flash: { success: 'ルームを解散しました' }
   end
 
   def enter
@@ -55,27 +55,25 @@ class RoomsController < ApplicationController
       current_user.join_members(@room)
       redirect_to room_path(@room)
     else
-      redirect_to enter_room_path(@room), flash: {alert: 'パスワードが違います'}
+      redirect_to enter_room_path(@room), flash: { alert: 'パスワードが違います' }
     end
   end
 
   def setting
-    if @room.update(setting_params)
-      redirect_to new_room_question_path(@room)
-    end
+    return unless @room.update(setting_params)
+
+    redirect_to new_room_question_path(@room)
   end
 
   def finish
     @room.result!
-    # redirect_to result_room_path(@room), flash: {success: '最終結果です'}
-    # ↑を消してアクションケーブルでページリロード
-    ActionCable.server.broadcast 'phase_channel', {room: @room.id}
+    ActionCable.server.broadcast 'phase_channel', { room: @room.id }
   end
 
   def result
-    redirect_to room_question_path(@room, @room.latest_question), flash: {alert: 'まだゲーム中です'} unless @room.result?
+    redirect_to room_question_path(@room, @room.latest_question), flash: { alert: 'まだゲーム中です' } unless @room.result?
 
-    @members = @room.members.sort_by{|member| member.result(@room)}.reverse
+    @members = @room.members.sort_by { |member| member.result(@room) }.reverse
   end
 
   def search
@@ -87,15 +85,15 @@ class RoomsController < ApplicationController
   def set_room
     @room = Room.find_by(id: params[:id])
 
-    if @room.nil?
-       redirect_to root_path, alert: "指定されたルームが見つかりませんでした。"
-    end
+    return unless @room.nil?
+
+    redirect_to root_path, alert: '指定されたルームが見つかりませんでした。'
   end
 
   def set_members
     @members = @room.members
   end
-  
+
   def room_params
     params.require(:room).permit(:title, :password)
   end
@@ -113,17 +111,17 @@ class RoomsController < ApplicationController
   end
 
   def require_normal_user
-    if current_user.guest_user?
-        redirect_to root_path, alert: 'ゲストユーザーはルームに参加できません'
-    end
+    return unless current_user.guest_user?
+
+    redirect_to root_path, alert: 'ゲストユーザーはルームに参加できません'
   end
 
   def set_guest_room
-    guestA = User.guest('a')
-    guestB = User.guest('b')
+    guest_a = User.guest('a')
+    guest_b = User.guest('b')
 
-    guestA.join_members(@room)
-    guestB.join_members(@room)
+    guest_a.join_members(@room)
+    guest_b.join_members(@room)
   end
 
   def delete_guest_rooms
