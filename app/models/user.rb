@@ -10,21 +10,21 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  
+
   validates :name, presence: true, length: { maximum: 10 }
 
-  def self.guest(x="")
-    guest_email = 'guest' + x + '@example.com'
+  def self.guest(x = '')
+    guest_email = "guest#{x}@example.com"
     find_or_create_by!(email: guest_email) do |user|
       user.password = SecureRandom.urlsafe_base64
       user.password_confirmation = user.password
-      user.name = "ゲストユーザー" + x
+      user.name = "ゲストユーザー#{x}"
     end
   end
 
   def guest_user?
-    guest_emails = ['guest@example.com', 'guestA@example.com', 'guestB@example.com'] 
-    guest_emails.include?(self.email)
+    guest_emails = ['guest@example.com', 'guesta@example.com', 'guestb@example.com']
+    guest_emails.include?(email)
   end
 
   def owner?(room)
@@ -33,12 +33,13 @@ class User < ApplicationRecord
 
   def join_members(room)
     members_rooms << room
-    ActionCable.server.broadcast 'entry_channel', {action: "join", name: self.name, id: self.id, room: room.id, count: room.members.count}
+    ActionCable.server.broadcast 'entry_channel',
+                                 { action: 'join', name: name, id: id, room: room.id, count: room.members.count }
   end
 
   def cancel_members(room)
     members_rooms.delete(room)
-    ActionCable.server.broadcast 'entry_channel', {action: "cancel", id: self.id, room: room.id, count: room.members.count}
+    ActionCable.server.broadcast 'entry_channel', { action: 'cancel', id: id, room: room.id, count: room.members.count }
   end
 
   def members?(room)
@@ -50,7 +51,7 @@ class User < ApplicationRecord
   end
 
   def answered?(question)
-    Answer.where(question_id: question, user_id: self.id).exists?
+    Answer.where(question_id: question, user_id: id).exists?
   end
 
   def answer(question)
@@ -58,16 +59,16 @@ class User < ApplicationRecord
   end
 
   def voted?(question)
-    votes = Vote.where(question_id: question, user_id: self.id).exists?
+    Vote.where(question_id: question, user_id: id).exists?
   end
 
   def voted_answer(question)
-    vote = Vote.find_by(question_id: question, user_id: self.id)
+    vote = Vote.find_by(question_id: question, user_id: id)
     Answer.find_by(id: vote.answer_id)
   end
 
   def result(room)
-    answers = Answer.joins(:question).where( question: { room_id: room.id }, user_id: self.id).pluck(:id)
+    answers = Answer.joins(:question).where(question: { room_id: room.id }, user_id: id).pluck(:id)
     Vote.where(answer_id: answers).count
   end
 end

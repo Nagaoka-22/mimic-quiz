@@ -1,10 +1,10 @@
 class Member < ApplicationRecord
-    belongs_to :user
-    belongs_to :room
-  
-    validates :user_id, uniqueness: { scope: :room_id }
+  belongs_to :user
+  belongs_to :room
 
-    def name
-        User.find(user_id).name
-    end
+  validates :user_id, uniqueness: { scope: :room_id }
+
+  def name
+    User.find(user_id).name
+  end
 end

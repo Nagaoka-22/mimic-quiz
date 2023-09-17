@@ -4,7 +4,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :votes, dependent: :destroy
 
-  enum phase:{ question: 0, answer: 1, vote: 2, result: 3 }
+  enum phase: { question: 0, answer: 1, vote: 2, result: 3 }
 
   validates :user_id, presence: true
 
