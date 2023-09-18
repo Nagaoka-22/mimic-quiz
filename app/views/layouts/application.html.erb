@@ -6,8 +6,23 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= favicon_link_tag('fav.png') %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%= display_meta_tags(default_meta_tags) %>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YKQ5KB055Q"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YKQ5KB055Q');
+    </script>
+    <!-- サーチコンソール -->
+    <meta name="google-site-verification" content="gmpjeOU2NSF8Upzpc7tFefBWiG59USd43dWKDaexCV4" />
   </head>
 
   <body class='<%= controller.controller_name %>'>
