@@ -36,7 +36,7 @@ class Room < ApplicationRecord
   end
 
   def result_members
-    Member.where(room_id: id).order(point: :asc)
+    Member.where(room_id: id).order(point: :desc)
   end
 
   private

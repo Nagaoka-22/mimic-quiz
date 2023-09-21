@@ -1,13 +1,13 @@
 <div class="room-info">
   <h2><%= "#{@room.count_questions}問目「#{@question.content}」" %></h2>
-  <p>回答：<span id="total_answers"><%= @answers.count %></span>/<%= @members.count %>人</p>
+  <p id="js-count">回答：<span id="total_answers"><%= @answers.count %></span>/<span id="denominator"><%= @members.count %></span>人</p>
 </div>
 
 <% if current_user.answered?(@question) %>
 <div class="answer-status">
  <p>あなたの回答は「<%= current_user.answer(@question).content %>」</p>
  <% if current_user.owner?(@room) %>
-   <%= link_to '投票を開始する', vote_room_question_path(@room, @question), method: :patch, class: 'btn btn-primary', data: {confirm: "回答を締め切って投票を開始します"} %>
+   <%= link_to '投票を開始する', vote_room_question_path(@room, @question), method: :patch, class: 'btn btn-primary' %>
   <% else %>
    <small>投票の開始までしばらくお待ちください</small>
  <% end %>

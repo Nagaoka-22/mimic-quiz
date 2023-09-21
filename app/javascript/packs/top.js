@@ -26,8 +26,8 @@ jQuery(function ($) {
         return false;
     });
       
-    $('a#popup-close').on('click',function(){
-        $('#js-popup').fadeOut();
+    $('a#popup-close, #js-popup-bg').on('click',function(){
+        $('#js-popup').removeClass('show').fadeOut();
         return false;
     });
 });

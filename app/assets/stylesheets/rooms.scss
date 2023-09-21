@@ -56,6 +56,9 @@ body.rooms {
                         margin-bottom: 0;
                         font-weight: normal;
                     }
+                    dt {
+                        flex-shrink: 0;
+                    }
                 }
                 .copyBtn {
                     font-size: 0.8em;
