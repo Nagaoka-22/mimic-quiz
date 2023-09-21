@@ -135,19 +135,29 @@ form {
 
 .popup {
    display: none;
+   position: relative;
    height: 100vh;
    width: 100%;
-   background: rgba(black, .7);
    position: fixed;
    top: 0;
    left: 0;
+   &-bg {
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      cursor: pointer;
+      background: rgba(black, .7);
+   }
    &.show {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: block;
   }
    &-content{
       position: relative;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
       z-index: 2;
       background: #fff;
       border: 5px solid #ffd739;
@@ -156,6 +166,9 @@ form {
       max-width: 480px;
       max-height: 60vh;
       overflow: scroll;
+      @media screen and (max-width: 600px) {
+         padding: 15px;
+      }
       &_inner {
          ul {
             margin-top: 10px;
