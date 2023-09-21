@@ -43,7 +43,7 @@ section {
 }
 .ready {
    font-weight: bold;
-   color: #45cfb8;
+   color: #007bff;
    animation: flash 1.5s linear infinite;
    @keyframes flash {
       0%,
@@ -95,6 +95,9 @@ footer {
          margin: 0 10px;
       }
    }
+}
+label {
+   cursor: pointer;
 }
 a {
    color: inherit;

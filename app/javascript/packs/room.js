@@ -15,4 +15,11 @@ jQuery(function ($) {
         }, 1000);
     });
 
+    var denominator = $("#denominator").text();
+    var answers = $("#total_answers").text();
+    var votes = $("#total_votes").text();
+    var jsCount = $("#js-count");
+    if(denominator == answers || denominator == votes ) {
+        jsCount.addClass("ready");
+    }
 });

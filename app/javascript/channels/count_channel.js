@@ -16,10 +16,15 @@ consumer.subscriptions.create("CountChannel", {
       if (data.action == "answer") {
         document.getElementById("total_answers").innerHTML = data.count;
       }
-
       if (data.action == "vote") {
         document.getElementById("total_votes").innerHTML = data.count;
       }
+      var denominator = document.getElementById("denominator").innerHTML;
+      var jsCount = document.getElementById("js-count");
+      if (denominator == data.count) {
+        jsCount.classList.add("ready");
+      }
+
     }
   }
 });
